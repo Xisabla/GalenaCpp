@@ -8,24 +8,42 @@
     int yyerror(char *s);
 %}
 
-%code requires{
-    #define YYSTYPE double
+%union {
+    double number;
+    char* string;
 }
 
-%token NOMBRE
-%token RETOUR_LIGNE
-%left PLUS
+%token <number> NUMBER
+%token <string> STRING
+%token END_OF_LINE
+%token SEMI
+%type <number> calcul
+%type <string> expression
+%left PLUS MINUS
+%left TIMES DIVIDE
 
 %%
 main: /* empty */
     | main statement
     ;
 
-statement: expression RETOUR_LIGNE
+statement: calcul
+    | expression
+    | statement SEMI
+    | statement END_OF_LINE
+    ;
+
+calcul:
+    NUMBER                  { $$ = $1; }
+    | MINUS NUMBER          { $$ = -$2; }
+    | calcul MINUS calcul   { $$ = $1 - $3; cout << $1 << " - " << $3 << " = " << $$ << endl; }
+    | calcul PLUS calcul    { $$ = $1 + $3; cout << $1 << " + " << $3 << " = " << $$ << endl; }
+    | calcul TIMES calcul   { $$ = $1 * $3; cout << $1 << " * " << $3 << " = " << $$ << endl; }
+    | calcul DIVIDE calcul  { $$ = $1 / $3; cout << $1 << " / " << $3 << " = " << $$ << endl; }
+    ;
 
 expression:
-    NOMBRE              { $$ = $1; }
-    | expression PLUS expression  { $$ = $1 + $3; cout << $1 << " + " << $2 << " = " << $$ << endl; }
+    STRING                     { $$ = $1; cout << $$ << endl; }
     ;
 
 
