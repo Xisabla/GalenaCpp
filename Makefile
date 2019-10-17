@@ -20,7 +20,24 @@ CXX_FLAGS=-lm -Wall
 #-----------------------------------------------#
 
 # Source file
-PRG_SOURCE=source.gpp
+PGR_SOURCE=source.gpp
+
+
+WELCOME_MSG=" ┌────────────────────────────────────────┐\n\
+│                                        │\n\
+│               GalenaC++                │\n\
+│                                        │\n\
+├────────────────────────────────────────┤\n\
+│                                        │\n\
+│                    \\\\\                  │\n\
+│                    (o>                 │\n\
+│                \\\\\_//)                  │\n\
+│                 \\_/_)                  │\n\
+│                  _|_                   │\n\
+│                       v1.0.0           │\n\
+├────────────────────────────────────────┤\n\
+│ © Copyright 2019 - ARBACHE - MIQUET    │\n\
+└────────────────────────────────────────┘"
 
 #-----------------------------------------------#
 #                                               #
@@ -29,22 +46,7 @@ PRG_SOURCE=source.gpp
 #-----------------------------------------------#
 
 welcome: ## Show GalenaC++ beautiful welcome message
-	@echo "┌────────────────────────────────────────┐"
-	@echo "│                                        │"
-	@echo "│               GalenaC++                │"
-	@echo "│                                        │"
-	@echo "├────────────────────────────────────────┤"
-	@echo "│                                        │"
-	@echo "│                    \\\\                  │"
-	@echo "│                    (o>                 │"
-	@echo "│                \\\\_//)                  │"
-	@echo "│                 \\_/_)                  │"
-	@echo "│                  _|_                   │"
-	@echo "│                       v1.0.0           │"
-	@echo "├────────────────────────────────────────┤"
-	@echo "│ © Copyright 2019 - ARBACHE - MIQUET    │"
-	@echo "└────────────────────────────────────────┘"
-	@sleep 2
+	@echo $(WELCOME_MSG)
 
 help: ## Show this help.
 	@printf "\033[32m%-30s     \033[32m %s\n" "VARIABLE NAME" "DEFAULT_VALUE"
@@ -81,4 +83,4 @@ build: welcome parser.tab.c lex.yy.c ## Build the program
 	@echo "Done" && echo 
 
 run: program ## Run the program
-	./program $(PRG_SOURCE)
+	./program $(PGR_SOURCE)
