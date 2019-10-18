@@ -1,12 +1,17 @@
 language: cpp
 
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y build-essential
+arch:
+  - amd64
+  - arm64               # For raspberry
 
-install:
-  - sudo apt-get install -y bison
-  - sudo apt-get install -y flex
+addons:
+  apt:
+    update: true        # Run apt update
+    packages:           # Apt install dependencies
+      - build-essential
+      - bison
+      - flex
 
-script:
+script:                 # Run build and run script
+  - make clean build
   - make clean run
