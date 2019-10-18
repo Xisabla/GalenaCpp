@@ -60,10 +60,10 @@ statement: calcul
 calcul:
     NUMBER                  { $$ = $1; }
     | MINUS NUMBER          { $$ = -$2; }
-    | calcul MINUS calcul   { $$ = $1 - $3; cout << $1 << " - " << $3 << " = " << $$ << endl; }
-    | calcul PLUS calcul    { $$ = $1 + $3; cout << $1 << " + " << $3 << " = " << $$ << endl; }
-    | calcul TIMES calcul   { $$ = $1 * $3; cout << $1 << " * " << $3 << " = " << $$ << endl; }
-    | calcul DIVIDE calcul  { $$ = $1 / $3; cout << $1 << " / " << $3 << " = " << $$ << endl; }
+    | calcul MINUS calcul   { $$ = $1 - $3; cout << "Caulcul: " << $1 << " - " << $3 << " = " << $$ << endl; }
+    | calcul PLUS calcul    { $$ = $1 + $3; cout << "Caulcul: " << $1 << " + " << $3 << " = " << $$ << endl; }
+    | calcul TIMES calcul   { $$ = $1 * $3; cout << "Caulcul: " << $1 << " * " << $3 << " = " << $$ << endl; }
+    | calcul DIVIDE calcul  { $$ = $1 / $3; cout << "Caulcul: " << $1 << " / " << $3 << " = " << $$ << endl; }
     ;
 
 expression:
@@ -136,6 +136,25 @@ bool assignVarDouble(string name, double value) {
 
 }
 
+void welcome() {
+    cout << "┌────────────────────────────────────────┐" << endl;
+    cout << "│                                        │" << endl;
+    cout << "│               GalenaC++                │" << endl;
+    cout << "│                                        │" << endl;
+    cout << "├────────────────────────────────────────┤" << endl;
+    cout << "│                                        │" << endl;
+    cout << "│                    \\\\\                  │" << endl;
+    cout << "│                    (o>                 │" << endl;
+    cout << "│                \\\\\_//)                  │" << endl;
+    cout << "│                 \\_/_)                  │" << endl;
+    cout << "│                  _|_                   │" << endl;
+    cout << "│                       v1.0.0           │" << endl;
+    cout << "├────────────────────────────────────────┤" << endl;
+    cout << "│ © Copyright 2019 - ARBACHE - MIQUET    │" << endl;
+    cout << "└────────────────────────────────────────┘" << endl;
+    cout << endl << endl;
+}
+
 int main(int argc, char **argv) {
 
     // Try to open given file
@@ -150,8 +169,11 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Welcome
+    welcome();
+
     // Parse
-    yyparse();	
+    yyparse();
 
     return 0;
 }
