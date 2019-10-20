@@ -8,7 +8,7 @@ addons:
   apt:
     update: true
     packages:
-      - build-essentials
+      - build-essential
       - bison
       - flex
 
