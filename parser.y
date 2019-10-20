@@ -4,6 +4,10 @@
     #include <string>
     using namespace std;
 
+    #include "./src/vars.h"
+
+    varman* vm = init_vm();
+
     extern int yylex();
     int yyerror(char *s);
 %}
@@ -15,6 +19,10 @@
 
 %token <number> NUMBER
 %token <string> STRING
+%token <string> VARIABLE
+%token LET
+%token EQUAL
+%token SHOW
 %token END_OF_LINE
 %token SEMI
 %type <number> calcul
@@ -31,19 +39,23 @@ statement: calcul
     | expression
     | statement SEMI
     | statement END_OF_LINE
+    | LET VARIABLE EQUAL calcul { setvar_f(vm, strdup($2), $4); cout << "let " << $2 << " = " << getvar_f(vm, strdup($2)).v << endl; }
+    | SHOW calcul               { cout << $2 << endl; }
+    | SHOW VARIABLE             { show_var_f(vm, strdup($2)); }
+    | SHOW STRING               { cout << $2 << endl; } 
     ;
 
 calcul:
-    NUMBER                  { $$ = $1; }
-    | MINUS NUMBER          { $$ = -$2; }
-    | calcul MINUS calcul   { $$ = $1 - $3; cout << $1 << " - " << $3 << " = " << $$ << endl; }
-    | calcul PLUS calcul    { $$ = $1 + $3; cout << $1 << " + " << $3 << " = " << $$ << endl; }
-    | calcul TIMES calcul   { $$ = $1 * $3; cout << $1 << " * " << $3 << " = " << $$ << endl; }
-    | calcul DIVIDE calcul  { $$ = $1 / $3; cout << $1 << " / " << $3 << " = " << $$ << endl; }
+    NUMBER                      { $$ = $1; }
+    | MINUS NUMBER              { $$ = -$2; }
+    | calcul MINUS calcul       { $$ = $1 - $3; }
+    | calcul PLUS calcul        { $$ = $1 + $3; }
+    | calcul TIMES calcul       { $$ = $1 * $3; }
+    | calcul DIVIDE calcul      { $$ = $1 / $3; }
     ;
 
 expression:
-    STRING                     { $$ = $1; cout << $$ << endl; }
+    STRING                      { $$ = $1; cout << $$ << endl; }
     ;
 
 

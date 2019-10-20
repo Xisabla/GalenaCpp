@@ -1,6 +1,12 @@
-1 + 4 + 5
-- 1 - 4.5 + 5
-2 + 5 * 3 + 2
-2 + 15 / 3 + 2
+soit a = 1 + 4 + 5
+soit b = - 1 - 4.5 + 5
+soit c = 2 + 5 * 3 + 2
+soit a = 2 + 15 / 3 + 2
 
-hello
+afficher a
+afficher b
+afficher c
+afficher d
+
+afficher "hello"
+afficher "hello world"
