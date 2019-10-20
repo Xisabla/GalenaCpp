@@ -1,6 +1,12 @@
-let a = 12 - 4 * 8 + 17 * 2
-let b = 4
-let c = 12 * 4
-let b = 15
+soit a = 1 + 4 + 5
+soit b = - 1 - 4.5 + 5
+soit c = 2 + 5 * 3 + 2
+soit a = 2 + 15 / 3 + 2
 
-show b
+afficher a
+afficher b
+afficher c
+afficher d
+
+afficher "hello"
+afficher "hello world"

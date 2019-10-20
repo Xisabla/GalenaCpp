@@ -4,26 +4,12 @@
     #include <string>
     using namespace std;
 
+    #include "./src/vars.h"
+
+    varman* vm = init_vm();
+
     extern int yylex();
     int yyerror(char *s);
-
-    // TODO: Use chained list, or something else - but simplified functions with more complex objects
-
-    typedef struct varDouble {
-        char* name;
-        double value;
-    } varDouble;
-
-    varDouble *vDouble = (varDouble *)malloc(sizeof(varDouble));
-    int varId = 0;
-
-    // TODO: Ofc use another lib for that
-
-    bool createrVarDouble(string name, double value);
-    bool assignVarDouble(string name, double value);
-    varDouble* getVarDouble(string name);
-    double getVarDoubleValue(string name);
-
 %}
 
 %union {
@@ -33,9 +19,10 @@
 
 %token <number> NUMBER
 %token <string> STRING
-%token VAR_DEFINER
-%token SHOW
+%token <string> VARIABLE
+%token LET
 %token EQUAL
+%token SHOW
 %token END_OF_LINE
 %token SEMI
 %type <number> calcul
@@ -52,89 +39,27 @@ statement: calcul
     | expression
     | statement SEMI
     | statement END_OF_LINE
-    | VAR_DEFINER STRING EQUAL calcul   { string s = $2; assignVarDouble(s, $4); }
-    | SHOW STRING                     { string s = $2; cout << s << " = " << getVarDoubleValue(s) << endl; }
-    /*| VAR_DEFINER STRING EQUAL calcul   { varId++; varsVal[varId] = $4; cout << "Set " << $2 << " = " << varsVal[varId] << " (id: " << varId << ")" << endl;  }*/
+    | LET VARIABLE EQUAL calcul { setvar_f(vm, strdup($2), $4); cout << "let " << $2 << " = " << getvar_f(vm, strdup($2)).v << endl; }
+    | SHOW calcul               { cout << $2 << endl; }
+    | SHOW VARIABLE             { show_var_f(vm, strdup($2)); }
+    | SHOW STRING               { cout << $2 << endl; } 
     ;
 
 calcul:
-    NUMBER                  { $$ = $1; }
-    | MINUS NUMBER          { $$ = -$2; }
-    | calcul MINUS calcul   { $$ = $1 - $3; cout << "Caulcul: " << $1 << " - " << $3 << " = " << $$ << endl; }
-    | calcul PLUS calcul    { $$ = $1 + $3; cout << "Caulcul: " << $1 << " + " << $3 << " = " << $$ << endl; }
-    | calcul TIMES calcul   { $$ = $1 * $3; cout << "Caulcul: " << $1 << " * " << $3 << " = " << $$ << endl; }
-    | calcul DIVIDE calcul  { $$ = $1 / $3; cout << "Caulcul: " << $1 << " / " << $3 << " = " << $$ << endl; }
+    NUMBER                      { $$ = $1; }
+    | MINUS NUMBER              { $$ = -$2; }
+    | calcul MINUS calcul       { $$ = $1 - $3; }
+    | calcul PLUS calcul        { $$ = $1 + $3; }
+    | calcul TIMES calcul       { $$ = $1 * $3; }
+    | calcul DIVIDE calcul      { $$ = $1 / $3; }
     ;
 
 expression:
-    STRING                      { $$ = $1; string s = $1; cout << "String: " << s << endl; }
+    STRING                      { $$ = $1; cout << $$ << endl; }
     ;
 
 
 %%
-
-varDouble* getVarDouble(string name) {
-
-   for(int i = 0; i < varId; i++) {
-        string vname = vDouble[i].name;
-
-        if(name == vname) {
-            return vDouble;
-        }
-    }
-
-    return NULL;
-
-}
-
-double getVarDoubleValue(string name) {
-
-    varDouble* var = getVarDouble(name);
-
-    return var == NULL ? 0 : var->value;
-
-}
-
-bool createrVarDouble(string name, double value) {
-
-    // Create variable
-    varDouble v;
-    v.name = strdup(name.c_str());
-    v.value = value;
-
-    // Set it
-    vDouble[varId] = v;
-
-    // Tell it
-    cout << "Create (id: " << varId << ")" << v.name << " = (float)" << v.value << endl;
-
-    // Expand var container
-    vDouble = (varDouble*)realloc(vDouble, (varId + 2) * sizeof(varDouble));
-
-    varId++;
-
-    return (vDouble != NULL);
-
-}
-
-bool assignVarDouble(string name, double value) {
-
-    varDouble* var = getVarDouble(name);
-
-    // If the variable already exists
-    if(var != NULL) {
-
-        var->value = value;
-        
-        cout << "Edit " << var->name << " = (float)" << var->value << endl;
-
-        return true;
-
-    }
-
-    return createrVarDouble(name, value);
-
-}
 
 void welcome() {
     cout << "┌────────────────────────────────────────┐" << endl;

@@ -2,16 +2,17 @@ language: cpp
 
 arch:
   - amd64
-  - arm64               # For raspberry
+  - arm64
 
 addons:
   apt:
-    update: true        # Run apt update
-    packages:           # Apt install dependencies
+    update: true
+    packages:
       - build-essential
       - bison
       - flex
 
-script:                 # Run build and run script
-  - make clean build
-  - make clean run
+script:
+  - make clean spikes       # Assume that the spikes runs
+  - make clean build        # Assume that the program build
+  - make clean run          # Assume that the program is running with the examples
