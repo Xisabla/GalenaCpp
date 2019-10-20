@@ -48,26 +48,24 @@ vartab_f *init_vartab_f();
 /**
  * Create vartable node with a given value
  */
-vartabn_f* create_vartabn_f(vartab_f *vartab, vartabt_f value);
+vartabn_f *create_vartabn_f(vartab_f *vartab, vartabt_f value);
 
 /**
  * Fetch node with the given id inside the vartab
  * NULL if no node found
  */
-vartabn_f* get_vartabn_f(vartab_f *vartab, int id);
-
+vartabn_f *get_vartabn_f(vartab_f *vartab, int id);
 
 /**
  * Insert the given node at the head of the vartable
  * All other nodes are shifted
  */
-void insert_vartabn_head(vartab_f* vartab, vartabn_f* node);
-
+void insert_vartabn_head(vartab_f *vartab, vartabn_f *node);
 
 /**
  * Insert the given node at the back of the vartable
  */
-void insert_vartabn_back(vartab_f* vartab, vartabn_f* node);
+void insert_vartabn_back(vartab_f *vartab, vartabn_f *node);
 
 /**
  * Create and add a node with a given value in the vartable

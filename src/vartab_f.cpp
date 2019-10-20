@@ -2,6 +2,7 @@
 
 vartab_f *init_vartab_f()
 {
+    
     vartab_f *vartab = (vartab_f *)malloc(sizeof(vartab_f));
 
     vartab->id_it = 0;
@@ -79,11 +80,12 @@ int add_vartabf_val(vartab_f *vartab, vartabt_f value)
 
     insert_vartabn_back(vartab, create_vartabn_f(vartab, value));
 
-    return vartab->id_it;
+    return vartab->id_it - 1;
 }
 
 int set_vartabf_val(vartab_f *vartab, int id, vartabt_f value)
 {
+
     vartabn_f *node = get_vartabn_f(vartab, id);
 
     if (node == NULL)
@@ -96,6 +98,7 @@ int set_vartabf_val(vartab_f *vartab, int id, vartabt_f value)
 
 vartabr_f get_vartabf_val(vartab_f *vartab, int id)
 {
+
     vartabn_f *node = get_vartabn_f(vartab, id);
 
     if (node == NULL)

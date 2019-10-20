@@ -57,7 +57,8 @@ int main()
 
     cout << "GET VALUE: " << endl;
 
-    for(int i = 0; i < 20; i++) {
+    for (int i = 0; i < 20; i++)
+    {
         cout << i << ": " << (get_vartabf_val(vartab, i).status ? "(error)" : "(success)") << get_vartabf_val(vartab, i).v << endl;
     }
 

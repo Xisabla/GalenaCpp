@@ -111,6 +111,9 @@ run: program ## Run the program
 build/s_%: spikes/%.cpp build/%.o ## Common spike building
 	$(CXX) $(CXX_FLAGS) $^ -o $@
 
+build/s_vars: spikes/vars.cpp build/vars.o build/vartab_f.o
+	$(CXX) $(CXX_FLAGS)	$^ -o $@
+
 spike/%: build/s_% ## Common spike running
 	@echo "=========================================="
 	@echo " START SPIKE: $@"
@@ -120,4 +123,4 @@ spike/%: build/s_% ## Common spike running
 	@echo " END SPIKE: $@"
 	@echo "=========================================="
 
-spikes: $(patsubst ./spikes/%.cpp, ./spike/%, $(SPIKES))
+spikes: $(patsubst ./spikes/%.cpp, ./spike/%, $(SPIKES)) ## Run all spikes
