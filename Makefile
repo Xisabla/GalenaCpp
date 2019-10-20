@@ -1,11 +1,9 @@
 .DEFAULT_GOAL=run
 .PHONY=all
 
-#-----------------------------------------------#
-#                                               #
-#              Compilation options              #
-#                                               #
-#-----------------------------------------------#
+#
+# ─── COMPILATION OPTIONS ────────────────────────────────────────────────────────
+#
 
 # Compiler
 CXX=g++
@@ -13,26 +11,25 @@ CXX=g++
 # Compiler flags
 CXX_FLAGS=
 
-#-----------------------------------------------#
-#                                               #
-#                Project sources                #
-#                                               #
-#-----------------------------------------------#
+#
+# ─── PROJECT SOURCES ────────────────────────────────────────────────────────────
+#	
 
 # Source files
-SOURCES=$(shell find ./src -type f -name "*.c")
+SOURCES=$(shell find ./src -type f -name "*.cpp")
 
 # Headers files
 HEADERS=$(shell find ./src -type f -name "*.h")
 
 # Objects files
-OBJECTS=$(patsubst ./src/%.c, ./build/%.o, $(SOURCES))
+OBJECTS=$(patsubst ./src/%.cpp, ./build/%.o, $(SOURCES))
 
-#-----------------------------------------------#
-#                                               #
-#                Program options                #
-#                                               #
-#-----------------------------------------------#
+# Spikes sources
+SPIKES=$(shell find ./spikes -type f -name "*.cpp")
+
+#
+# ─── PROGRAM OPTIONS ────────────────────────────────────────────────────────────
+#
 
 # Source file
 PGR_SOURCE=source.gpp
@@ -54,11 +51,9 @@ WELCOME_MSG=" ┌─────────────────────
 │ © Copyright 2019 - ARBACHE - MIQUET    │\n\
 └────────────────────────────────────────┘"
 
-#-----------------------------------------------#
-#                                               #
-#                    Recipes                    #
-#                                               #
-#-----------------------------------------------#
+#
+# ─── REPICES ────────────────────────────────────────────────────────────────────
+#
 
 .depend:
 	@$(CXX) -E -MM $(SOURCES) > .depend
@@ -82,11 +77,9 @@ clean: ## Clean builded files
 	rm -rf program
 	@echo "Done" && echo 
 
-build/%.o: src/%.c src/%.h .depend ## Build object files
-	@echo "Building '$@'..."
+build/%.o: src/%.cpp src/%.h .depend ## Build object files
 	@mkdir -p build
 	$(CXX) $(CXX_FLAGS) -g -c $< -o $@
-	@echo Done && echo 
 
 parser.tab.c: parser.y ## Build scanner
 	@echo "Building parser..."
@@ -110,3 +103,13 @@ program: build ## Build and fix program executable
 
 run: program ## Run the program
 	./program $(PGR_SOURCE)
+
+#
+# ─── SPIKES ─────────────────────────────────────────────────────────────────────
+#
+
+build/s_%: spikes/%.cpp build/%.o ## Common spike building
+	$(CXX) $(CXX_FLAGS) $^ -o $@
+
+spike/%: build/s_% ## Common spike running
+	./$<
