@@ -1,0 +1,18 @@
+language: cpp
+
+arch:
+  - amd64
+  - arm64
+
+addons:
+  apt:
+    update: true
+    packages:
+      - build-essentials
+      - bison
+      - flex
+
+scripts:
+  - make clean spikes       # Assume that the spikes runs
+  - make clean build        # Assume that the program build
+  - make clean run          # Assume that the program is running with the examples
