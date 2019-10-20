@@ -112,7 +112,6 @@ build/s_%: spikes/%.cpp build/%.o ## Common spike building
 	$(CXX) $(CXX_FLAGS) $^ -o $@
 
 spike/%: build/s_% ## Common spike running
-	@clear
 	@echo "=========================================="
 	@echo " START SPIKE: $@"
 	@echo "=========================================="
@@ -121,4 +120,4 @@ spike/%: build/s_% ## Common spike running
 	@echo " END SPIKE: $@"
 	@echo "=========================================="
 
-spikes: spike/*
+spikes: $(patsubst ./spikes/%.cpp, ./spike/%, $(SPIKES))
