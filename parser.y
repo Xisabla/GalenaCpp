@@ -9,7 +9,7 @@
     varman* vm = init_vm();
 
     extern int yylex();
-    int yyerror(char *s);
+    int yyerror(char const *s);
 %}
 
 %union {
@@ -68,9 +68,9 @@ void welcome() {
     cout << "│                                        │" << endl;
     cout << "├────────────────────────────────────────┤" << endl;
     cout << "│                                        │" << endl;
-    cout << "│                    \\\\\                  │" << endl;
+    cout << "│                    \\\\                  │" << endl;
     cout << "│                    (o>                 │" << endl;
-    cout << "│                \\\\\_//)                  │" << endl;
+    cout << "│                \\\\_//)                  │" << endl;
     cout << "│                 \\_/_)                  │" << endl;
     cout << "│                  _|_                   │" << endl;
     cout << "│                       v1.0.0           │" << endl;
@@ -103,7 +103,7 @@ int main(int argc, char **argv) {
     return 0;
 }
 
-int yyerror(char *s) {					
+int yyerror(char const *s) {					
     cout << "[ERROR]" << s << endl;
 
     return 1;
