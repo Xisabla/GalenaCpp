@@ -73,3 +73,8 @@ dkms.conf
 *.yy.c
 
 program
+
+# VSCode
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
