@@ -20,7 +20,7 @@ using namespace std;
 class Memory
 {
 public:
-    Memory(bool expandable = false, int size = 2048);
+    Memory(bool expandable = true, int size = 0);
 
     bool is_reserved(int addr);
     int find_free_space(int size = 1);

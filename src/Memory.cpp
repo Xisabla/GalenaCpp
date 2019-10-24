@@ -155,7 +155,9 @@ ostream &operator<<(ostream &os, Memory &m)
     for (int i = 0; i < addr_size; i++)
         os << "─";
 
-    os << "─────────────┘";
+    os << "─────────────┘" << endl;
+    os << "Size: " << m.memory.size() << " (" << m.memory.size() * 8 << " bits)" << endl;
+    os << "Reserved: " << m.addr_reserved.size() << " (" << m.addr_reserved.size() * 8 << " bits - " << setprecision(3) << (float)m.addr_reserved.size() / (float)m.memory.size() * 100 << "%)";
 
     return os;
 }

@@ -9,7 +9,7 @@
 CXX=g++
 
 # Compiler flags
-CXX_FLAGS=
+CXX_FLAGS=-std=c++11
 
 #
 # ─── PROJECT SOURCES ────────────────────────────────────────────────────────────
@@ -83,18 +83,18 @@ build/%.o: src/%.cpp src/%.h .depend ## Build object files
 
 parser.tab.c: parser.y ## Build scanner
 	@echo "Building parser..."
-	@bison parser.y
+	bison parser.y
 	@echo "Done" && echo 
 
 lex.yy.c: parser.tab.c scanner.l ## Build scanner
 	@echo "Building scanner..."
-	@flex scanner.l
+	flex scanner.l
 	@echo "Done" && echo 
 
 build: welcome parser.tab.c lex.yy.c $(OBJECTS) ## Build the program
 	@echo "Building program..."
 	@echo "=============== G++ Output ==============="
-	@$(CXX) lex.yy.c $(OBJECTS) -o program $(CXX_FLAGS)
+	$(CXX) lex.yy.c $(OBJECTS) -o program $(CXX_FLAGS)
 	@echo "=========================================="
 	@echo "Done" && echo 
 
@@ -111,9 +111,9 @@ run: program ## Run the program
 build/s_%: spikes/%.cpp build/%.o ## Common spike building
 	$(CXX) $(CXX_FLAGS) $^ -o $@
 
-build/s_vars: spikes/vars.cpp build/vars.o build/vartab_f.o
-	$(CXX) $(CXX_FLAGS)	$^ -o $@
-
+build/s_VarManager: spikes/VarManager.cpp build/VarManager.o build/Memory.o
+	$(CXX) $(CXX_FLAGS) $^ -o $@
+	
 spike/%: build/s_% ## Common spike running
 	@echo "=========================================="
 	@echo " START SPIKE: $@"

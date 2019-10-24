@@ -4,10 +4,6 @@
     #include <string>
     using namespace std;
 
-    #include "./src/vars.h"
-
-    varman* vm = init_vm();
-
     extern int yylex();
     int yyerror(char const *s);
 %}
@@ -39,9 +35,9 @@ statement: calcul
     | expression
     | statement SEMI
     | statement END_OF_LINE
-    | LET VARIABLE EQUAL calcul { setvar_f(vm, strdup($2), $4); cout << "let " << $2 << " = " << getvar_f(vm, strdup($2)).v << endl; }
+    | LET VARIABLE EQUAL calcul { cout << $2 << " = " << $4 << endl; }
     | SHOW calcul               { cout << $2 << endl; }
-    | SHOW VARIABLE             { show_var_f(vm, strdup($2)); }
+    | SHOW VARIABLE             { cout << "show " << $2 << endl; }
     | SHOW STRING               { cout << $2 << endl; } 
     ;
 
