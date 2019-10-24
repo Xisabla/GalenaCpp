@@ -56,7 +56,7 @@ WELCOME_MSG=" ┌─────────────────────
 #
 
 .depend:
-	@$(CXX) -E -MM $(SOURCES) > .depend
+	@$(CXX) $(CXX_FLAGS) -E -MM $(SOURCES) > .depend
 
 welcome: ## Show GalenaC++ beautiful welcome message
 	@echo $(WELCOME_MSG)
