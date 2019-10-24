@@ -9,7 +9,7 @@
 CXX=g++
 
 # Compiler flags
-CXX_FLAGS=
+CXX_FLAGS=-std=c++11
 
 #
 # ─── PROJECT SOURCES ────────────────────────────────────────────────────────────
