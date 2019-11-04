@@ -5,7 +5,7 @@
 int main(int argc, char **argv)
 {
     vector<bitset<8>> data;
-    string str = "hello world";
+    string str = "hello world; foo bar; let a = b";
 
     for (auto &c : str)
         data.push_back(bitset<8>(c));
@@ -18,6 +18,7 @@ int main(int argc, char **argv)
 
     m[9] = bitset<8>('o');
     m.free(8, 2);
+    m.free(3, 2);
 
     cout << m << endl;
 
