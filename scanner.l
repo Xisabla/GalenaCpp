@@ -22,6 +22,7 @@
 \"[a-zA-Z0-9_ ]*\"              { yylval.string = strdup(yytext); return STRING; }
 [a-zA-Z0-9_]+                   { yylval.string = strdup(yytext); return VARIABLE; }
 [ \t]                           ;
+\/\/.*                          ;
 \n                              { return END_OF_LINE; }
 <<EOF>>                         { static int once = 0; return once++ ? 0 : END_OF_LINE; }
 
