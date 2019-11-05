@@ -6,8 +6,6 @@
 #include <iostream>
 #include <iomanip>
 
-#include <random>
-#include <ctime>
 #include <algorithm>
 #include <cmath>
 
