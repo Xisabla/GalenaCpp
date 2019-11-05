@@ -4,8 +4,12 @@
     #include <string>
     using namespace std;
 
+    #include "./src/VarManager.h"
+
     extern int yylex();
     int yyerror(char const *s);
+
+    VarManager vm;
 %}
 
 %union {
@@ -35,14 +39,18 @@ statement: calcul
     | expression
     | statement SEMI
     | statement END_OF_LINE
-    | LET VARIABLE EQUAL calcul { cout << $2 << " = " << $4 << endl; }
+    | LET VARIABLE EQUAL calcul { vm.set_double($2, $4); }
     | SHOW calcul               { cout << $2 << endl; }
-    | SHOW VARIABLE             { cout << "show " << $2 << endl; }
+    | SHOW VARIABLE             { 
+        if(vm.is_set($2)) cout << $2 << " = " << setprecision(10) <<  vm.get_double($2) << endl;
+        else cout << $2 << " is not defined" << endl;
+    }
     | SHOW STRING               { cout << $2 << endl; } 
     ;
 
 calcul:
     NUMBER                      { $$ = $1; }
+    | VARIABLE                  { $$ = vm.get_double($1); }
     | MINUS NUMBER              { $$ = -$2; }
     | calcul MINUS calcul       { $$ = $1 - $3; }
     | calcul PLUS calcul        { $$ = $1 + $3; }
