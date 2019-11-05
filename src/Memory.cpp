@@ -2,6 +2,11 @@
 
 Memory::Memory(bool expandable, int size) : expandable(expandable), memory(size){};
 
+int Memory::size()
+{
+    return memory.size();
+}
+
 bool Memory::is_reserved(int addr)
 {
     return addr_reserved.find(addr) != addr_reserved.end();

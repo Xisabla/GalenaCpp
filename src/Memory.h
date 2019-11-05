@@ -20,6 +20,8 @@ class Memory
 public:
     Memory(bool expandable = true, int size = 0);
 
+    int size();
+
     bool is_reserved(int addr);
     int find_free_space(int size = 1);
 
