@@ -110,9 +110,6 @@ run: program ## Run the program
 
 build/s_%: spikes/%.cpp build/%.o ## Common spike building
 	$(CXX) $(CXX_FLAGS) $^ -o $@
-
-build/s_VarManager: spikes/VarManager.cpp build/VarManager.o build/Memory.o build/Binary.o
-	$(CXX) $(CXX_FLAGS) $^ -o $@
 	
 spike/%: build/s_% ## Common spike running
 	@echo "=========================================="

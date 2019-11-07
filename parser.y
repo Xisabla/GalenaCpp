@@ -4,62 +4,32 @@
     #include <string>
     using namespace std;
 
-    #include "./src/VarManager.h"
-
     extern int yylex();
     int yyerror(char const *s);
-
-    VarManager vm;
 %}
 
-%union {
-    double number;
-    char* string;
+%code requires{
+    #define YYSTYPE string
 }
 
-%token <number> NUMBER
-%token <string> STRING
-%token <string> VARIABLE
-%token LET
-%token EQUAL
-%token SHOW
+%token IDENTIFIER
 %token END_OF_LINE
-%token SEMI
-%type <number> calcul
-%type <string> expression
-%left PLUS MINUS
-%left TIMES DIVIDE
+%left OR
+%left AND
 
 %%
 main: /* empty */
     | main statement
     ;
 
-statement: calcul
-    | expression
-    | statement SEMI
+statement: expression
     | statement END_OF_LINE
-    | LET VARIABLE EQUAL calcul { vm.set_double($2, $4); }
-    | SHOW calcul               { cout << $2 << endl; }
-    | SHOW VARIABLE             { 
-        if(vm.is_set($2)) cout << $2 << " = " << setprecision(10) <<  vm.get_double($2) << endl;
-        else cout << $2 << " is not defined" << endl;
-    }
-    | SHOW STRING               { cout << $2 << endl; } 
-    ;
-
-calcul:
-    NUMBER                      { $$ = $1; }
-    | VARIABLE                  { $$ = vm.get_double($1); }
-    | MINUS NUMBER              { $$ = -$2; }
-    | calcul MINUS calcul       { $$ = $1 - $3; }
-    | calcul PLUS calcul        { $$ = $1 + $3; }
-    | calcul TIMES calcul       { $$ = $1 * $3; }
-    | calcul DIVIDE calcul      { $$ = $1 / $3; }
     ;
 
 expression:
-    STRING                      { $$ = $1; cout << $$ << endl; }
+    IDENTIFIER                  { $$ = $1; cout << $1 << endl; }
+    | expression OR expression  { $$ = $1 + " or " + $3; cout << $1 << " or " << $3 << endl; }
+    | expression AND expression { $$ = $1 + " and " + $3; cout << $1 << " and " << $3 << endl; }
     ;
 
 

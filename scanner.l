@@ -10,17 +10,9 @@
 
 %%
 
-"afficher"                      { return SHOW; }
-"soit"                          { return LET; }
-"="                             { return EQUAL; }
-"+"                             { return PLUS; }
-"-"                             { return MINUS; }
-"*"                             { return TIMES; }
-"/"                             { return DIVIDE; }
-";"                             { return SEMI; }
-([0-9]+(\.[0-9]*)?)|(\.[0-9])   { yylval.number = atof(yytext); return NUMBER; }
-\"[a-zA-Z0-9_ ]*\"              { yylval.string = strdup(yytext); return STRING; }
-[a-zA-Z0-9_]+                   { yylval.string = strdup(yytext); return VARIABLE; }
+"|"                             { return OR; }
+"&"                             { return AND; }
+[a-z]+                          { yylval = yytext; return IDENTIFIER; }
 [ \t]                           ;
 \/\/.*                          ;
 \n                              { return END_OF_LINE; }
