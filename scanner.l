@@ -11,8 +11,9 @@
 %%
 
 "afficher"                      { return SHOW; }
+"saisir"                        { return GET; }
 "soit"                          { return LET; }
-"="                             { return EQUAL; }
+"qui vaut"                      { return EQUAL; }
 "+"                             { return PLUS; }
 "-"                             { return MINUS; }
 "*"                             { return TIMES; }

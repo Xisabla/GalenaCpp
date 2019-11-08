@@ -23,6 +23,7 @@
 %token LET
 %token EQUAL
 %token SHOW
+%token GET
 %token END_OF_LINE
 %token SEMI
 %type <number> calcul
@@ -45,7 +46,8 @@ statement: calcul
         if(vm.is_set($2)) cout << $2 << " = " << setprecision(10) <<  vm.get_double($2) << endl;
         else cout << $2 << " is not defined" << endl;
     }
-    | SHOW STRING               { cout << $2 << endl; } 
+    | SHOW STRING               { cout << $2 << endl; }
+    | GET VARIABLE              { double var; cout << $2 << " = "; cin >> var; vm.set_double($2, var); }
     ;
 
 calcul:

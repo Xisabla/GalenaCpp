@@ -2,10 +2,12 @@ soit a = 12
 soit b = -4
 soit c = a + b * 5
 
+
 afficher a
 afficher b
 afficher c
-afficher d
+
+saisir d; afficher d
 
 afficher "hello"
 afficher "hello world"
