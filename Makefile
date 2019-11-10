@@ -75,10 +75,11 @@ clean: ## Clean builded files
 	rm -rf lex.yy.c
 	rm -rf program.exe
 	rm -rf program
+	rm -rf output.exec
 	@echo "Done" && echo 
 
 build/%.o: src/%.cpp src/%.h .depend ## Build object files
-	@mkdir -p build
+	@mkdir -p $(dir $(OBJECTS))
 	$(CXX) $(CXX_FLAGS) -g -c $< -o $@
 
 parser.tab.c: parser.y ## Build scanner
@@ -109,9 +110,6 @@ run: program ## Run the program
 #
 
 build/s_%: spikes/%.cpp build/%.o ## Common spike building
-	$(CXX) $(CXX_FLAGS) $^ -o $@
-
-build/s_VarManager: spikes/VarManager.cpp build/VarManager.o build/Memory.o build/Binary.o
 	$(CXX) $(CXX_FLAGS) $^ -o $@
 	
 spike/%: build/s_% ## Common spike running

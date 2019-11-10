@@ -1,13 +1,1 @@
-soit a = 12
-soit b = -4
-soit c = a + b * 5
-
-
-afficher a
-afficher b
-afficher c
-
-saisir d; afficher d
-
-afficher "hello"
-afficher "hello world"
+- 2 / 5 * (3 + 6)

@@ -1,27 +1,21 @@
 %{
     extern "C" int yylex();
     
-    #include <iostream>
     #include "parser.tab.c"
 %}
 
 %option noyywrap
-%option nounput
 
 %%
 
-"afficher"                      { return SHOW; }
-"saisir"                        { return GET; }
-"soit"                          { return LET; }
-"qui vaut"                      { return EQUAL; }
+"("                             { return LBRACKET; }
+")"                             { return RBRACKET; }
 "+"                             { return PLUS; }
 "-"                             { return MINUS; }
 "*"                             { return TIMES; }
 "/"                             { return DIVIDE; }
 ";"                             { return SEMI; }
 ([0-9]+(\.[0-9]*)?)|(\.[0-9])   { yylval.number = atof(yytext); return NUMBER; }
-\"[a-zA-Z0-9_ ]*\"              { yylval.string = strdup(yytext); return STRING; }
-[a-zA-Z0-9_]+                   { yylval.string = strdup(yytext); return VARIABLE; }
 [ \t]                           ;
 \/\/.*                          ;
 \n                              { return END_OF_LINE; }

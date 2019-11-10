@@ -1,90 +1,63 @@
 %{
     #include <iostream>
-    #include <cmath>
+    #include <iomanip>
+    #include <map>
     #include <string>
-    using namespace std;
+    #include <vector>
+    #include "./src/program/program.h"
 
-    #include "./src/VarManager.h"
+    using namespace std;
 
     extern int yylex();
     int yyerror(char const *s);
 
-    VarManager vm;
+    Program prog;
+
+    int nb_inst = 0;
+    vector<pair<int, double>> instructions;
+
+    inline int ins(int c, double d) { instructions.push_back(make_pair(c, d)); return nb_inst++; }
+
 %}
 
 %union {
     double number;
-    char* string;
+    char* name;
 }
 
 %token <number> NUMBER
-%token <string> STRING
-%token <string> VARIABLE
-%token LET
-%token EQUAL
-%token SHOW
-%token GET
+%type <number> calcul
+
 %token END_OF_LINE
 %token SEMI
-%type <number> calcul
-%type <string> expression
+%token LBRACKET
+%token RBRACKET
+
+
 %left PLUS MINUS
 %left TIMES DIVIDE
 
 %%
-main: /* empty */
-    | main statement
+
+main: 
+    | main instruction
     ;
 
-statement: calcul
-    | expression
-    | statement SEMI
-    | statement END_OF_LINE
-    | LET VARIABLE EQUAL calcul { vm.set_double($2, $4); }
-    | SHOW calcul               { cout << $2 << endl; }
-    | SHOW VARIABLE             { 
-        if(vm.is_set($2)) cout << $2 << " = " << setprecision(10) <<  vm.get_double($2) << endl;
-        else cout << $2 << " is not defined" << endl;
-    }
-    | SHOW STRING               { cout << $2 << endl; }
-    | GET VARIABLE              { double var; cout << $2 << " = "; cin >> var; vm.set_double($2, var); }
+instruction: calcul             {  }     
+    | instruction END_OF_LINE
+    | instruction SEMI;
     ;
 
-calcul:
-    NUMBER                      { $$ = $1; }
-    | VARIABLE                  { $$ = vm.get_double($1); }
-    | MINUS NUMBER              { $$ = -$2; }
-    | calcul MINUS calcul       { $$ = $1 - $3; }
-    | calcul PLUS calcul        { $$ = $1 + $3; }
-    | calcul TIMES calcul       { $$ = $1 * $3; }
-    | calcul DIVIDE calcul      { $$ = $1 / $3; }
+calcul: calcul PLUS calcul      { prog.ins(PLUS, 0); }
+    | calcul MINUS calcul       { prog.ins(MINUS, 0); }
+    | calcul TIMES calcul       { prog.ins(TIMES, 0); }
+    | calcul DIVIDE calcul      { prog.ins(DIVIDE, 0); }
+    | LBRACKET calcul RBRACKET  { }
+    | MINUS NUMBER              { prog.ins(NUMBER, -$2); }
+    | NUMBER                    { prog.ins(NUMBER, $1); }
     ;
-
-expression:
-    STRING                      { $$ = $1; cout << $$ << endl; }
-    ;
-
 
 %%
-
-void welcome() {
-    cout << "┌────────────────────────────────────────┐" << endl;
-    cout << "│                                        │" << endl;
-    cout << "│               GalenaC++                │" << endl;
-    cout << "│                                        │" << endl;
-    cout << "├────────────────────────────────────────┤" << endl;
-    cout << "│                                        │" << endl;
-    cout << "│                    \\\\                  │" << endl;
-    cout << "│                    (o>                 │" << endl;
-    cout << "│                \\\\_//)                  │" << endl;
-    cout << "│                 \\_/_)                  │" << endl;
-    cout << "│                  _|_                   │" << endl;
-    cout << "│                       v1.0.0           │" << endl;
-    cout << "├────────────────────────────────────────┤" << endl;
-    cout << "│ © Copyright 2019 - ARBACHE - MIQUET    │" << endl;
-    cout << "└────────────────────────────────────────┘" << endl;
-    cout << endl << endl;
-}
 
 int main(int argc, char **argv) {
 
@@ -92,19 +65,24 @@ int main(int argc, char **argv) {
     if(argc > 1) {
         FILE *file = fopen(argv[1], "r");
 
-        if(file == NULL || !file) {
-            cout << "Unable to read file \"" << argv[1] << "\", running interactive"  << endl;
-        } else {
-            cout << "Reading \"" << argv[1] << "\"" << endl;
+        if(file && file != NULL)
             yyin = file;
-        }
     }
 
-    // Welcome
-    welcome();
+    prog.set_tokens({
+        { PLUS, "ADD" },
+        { MINUS, "SUB" },
+        { DIVIDE, "DIV" },
+        { TIMES, "MUL" },
+        { NUMBER, "NUM" }
+    });
 
-    // Parse
     yyparse();
+
+    cout << prog << endl;
+
+    prog.write("output.exec");
+    prog.run();
 
     return 0;
 }
