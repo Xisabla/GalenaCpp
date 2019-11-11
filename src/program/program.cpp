@@ -146,7 +146,7 @@ void Program::run()
     while (current_ins < instructions.size())
     {
         Instruction ins = instructions[current_ins].first;
-        double data = instructions[current_ins].second;
+        double data     = instructions[current_ins].second;
 
         // TODO: Build a map of executor methods
 
