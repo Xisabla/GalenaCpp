@@ -1,6 +1,7 @@
 // Options
 %option debug
-%option show_results
+%option show_result
+%option write true
 
 // Simple example with all operations
 -5 * 2 / 4 + 2
@@ -8,3 +9,5 @@
 // Random generated examples
 19 + 4 + 49 - 34 / 11
 20 / (42 + 67) * 34 + 47
+
+a = 2 + 5

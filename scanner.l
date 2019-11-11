@@ -8,6 +8,7 @@
 
 %%
 
+"="                             { return EQUAL; }
 "("                             { return LBRACKET; }
 ")"                             { return RBRACKET; }
 "+"                             { return PLUS; }

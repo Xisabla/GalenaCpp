@@ -24,10 +24,12 @@
     bool boolean;
 }
 
+%type <number> calcul
 %token <number> NUMBER
 %token <name> IDENTIFIER
 %token <boolean> BOOL
 
+%token EQUAL
 %token LBRACKET
 %token RBRACKET
 %token END_OF_LINE
@@ -45,8 +47,9 @@ main: /* empty */
     ;
 
 instruction: /* empty */
-    | calcul                    { if(prog.get_opt("show_results")) prog.ins(OUT, 0); }
     | option
+    | calcul                    { if(prog.get_opt("show_results")) prog.ins(OUT, 0); }
+    | IDENTIFIER EQUAL calcul       { cout << "TODO: ins(SET, " << $1 << ")" << endl; }
     | instruction END_OF_LINE
     | instruction SEMI;
     ;
@@ -83,7 +86,6 @@ int main(int argc, char **argv) {
 
     // Show and write execution commands
     cout << prog << endl;
-    prog.write("output.exec");
 
     // Run the program
     prog.run();

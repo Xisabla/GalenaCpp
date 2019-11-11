@@ -10,9 +10,9 @@
 // ─── CONSTRUCTORS ───────────────────────────────────────────────────────────────
 //
 
-Program::Program() : instructions(), nb_instr(0), pile(){};
+Program::Program() : instructions(), nb_instr(0), pile(), opt({{"welcome", true}}){};
 
-Program::Program(map<string, bool> opt) : instructions(), nb_instr(0), pile(), opt(opt){};
+Program::Program(map<string, bool> opt) : instructions(), nb_instr(0), pile(), opt({{"welcome", true}}){};
 
 //
 // ─── INSTRUCTIONS ───────────────────────────────────────────────────────────────
@@ -138,6 +138,7 @@ bool Program::write(ofstream &fs) const
  */
 void Program::run()
 {
+    if (get_opt("write")) write("output.exec");
 
     cout << "================ EXECUTION ===============" << endl;
 
@@ -339,7 +340,7 @@ void Program::set_opt(string name, bool value)
 }
 
 //
-// ─── DEBUG ──────────────────────────────────────────────────────────────────────
+// ─── PRINT ──────────────────────────────────────────────────────────────────────
 //
 
 /**
@@ -354,23 +355,26 @@ void Program::set_opt(string name, bool value)
  */
 ostream &operator<<(ostream &os, Program &prog)
 {
+    if (prog.get_opt("welcome"))
+    {
 
-    os << "┌────────────────────────────────────────┐" << endl;
-    os << "│                                        │" << endl;
-    os << "│               GalenaC++                │" << endl;
-    os << "│                                        │" << endl;
-    os << "├────────────────────────────────────────┤" << endl;
-    os << "│                                        │" << endl;
-    os << "│                    \\\\                  │" << endl;
-    os << "│                    (o>                 │" << endl;
-    os << "│                \\\\_//)                  │" << endl;
-    os << "│                 \\_/_)                  │" << endl;
-    os << "│                  _|_                   │" << endl;
-    os << "│                       v1.0.0           │" << endl;
-    os << "├────────────────────────────────────────┤" << endl;
-    os << "│ © Copyright 2019 - ARBACHE - MIQUET    │" << endl;
-    os << "└────────────────────────────────────────┘" << endl
-       << endl;
+        os << "┌────────────────────────────────────────┐" << endl;
+        os << "│                                        │" << endl;
+        os << "│               GalenaC++                │" << endl;
+        os << "│                                        │" << endl;
+        os << "├────────────────────────────────────────┤" << endl;
+        os << "│                                        │" << endl;
+        os << "│                    \\\\                  │" << endl;
+        os << "│                    (o>                 │" << endl;
+        os << "│                \\\\_//)                  │" << endl;
+        os << "│                 \\_/_)                  │" << endl;
+        os << "│                  _|_                   │" << endl;
+        os << "│                       v1.0.0           │" << endl;
+        os << "├────────────────────────────────────────┤" << endl;
+        os << "│ © Copyright 2019 - ARBACHE - MIQUET    │" << endl;
+        os << "└────────────────────────────────────────┘" << endl
+           << endl;
+    }
 
     os << "┌────────────────────────────────────────┐" << endl;
     os << "│     i  INS             data            │" << endl;

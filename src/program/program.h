@@ -1,24 +1,19 @@
 #ifndef GALENACPP_PROGRAM
 #define GALENACPP_PROGRAM
 
-#include <iostream>
-#include <iomanip>
 #include <fstream>
+#include <iomanip>
+#include <iostream>
 #include <sstream>
 
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
 
 #include "../instructions/instructions.h"
 
 using namespace Instructions;
 using namespace std;
-
-typedef struct options
-{
-    bool debug;
-} options;
 
 class Program
 {
@@ -51,7 +46,7 @@ public:
     bool get_opt(string name);
     void set_opt(string name, bool value = true);
 
-    // Debug
+    // Print
     friend ostream &operator<<(ostream &os, Program &prog);
 
 private:
