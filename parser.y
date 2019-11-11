@@ -4,19 +4,17 @@
     #include <map>
     #include <string>
     #include <vector>
+    
     #include "./src/program/program.h"
 
+    using namespace Instructions;
     using namespace std;
 
     extern int yylex();
     int yyerror(char const *s);
 
+    // Intialize program
     Program prog;
-
-    int nb_inst = 0;
-    vector<pair<int, double>> instructions;
-
-    inline int ins(int c, double d) { instructions.push_back(make_pair(c, d)); return nb_inst++; }
 
 %}
 
@@ -48,13 +46,13 @@ instruction: calcul             {  }
     | instruction SEMI;
     ;
 
-calcul: calcul PLUS calcul      { prog.ins(PLUS, 0); }
-    | calcul MINUS calcul       { prog.ins(MINUS, 0); }
-    | calcul TIMES calcul       { prog.ins(TIMES, 0); }
-    | calcul DIVIDE calcul      { prog.ins(DIVIDE, 0); }
+calcul: calcul PLUS calcul      { prog.ins(ADD, 0); }
+    | calcul MINUS calcul       { prog.ins(SUB, 0); }
+    | calcul TIMES calcul       { prog.ins(DIV, 0); }
+    | calcul DIVIDE calcul      { prog.ins(MUL, 0); }
     | LBRACKET calcul RBRACKET  { }
-    | MINUS NUMBER              { prog.ins(NUMBER, -$2); }
-    | NUMBER                    { prog.ins(NUMBER, $1); }
+    | MINUS NUMBER              { prog.ins(NUM, -$2); }
+    | NUMBER                    { prog.ins(NUM, $1); }
     ;
 
 %%
@@ -69,19 +67,14 @@ int main(int argc, char **argv) {
             yyin = file;
     }
 
-    prog.set_tokens({
-        { PLUS, "ADD" },
-        { MINUS, "SUB" },
-        { DIVIDE, "DIV" },
-        { TIMES, "MUL" },
-        { NUMBER, "NUM" }
-    });
-
+    // Parse
     yyparse();
 
+    // Show and write execution commands
     cout << prog << endl;
-
     prog.write("output.exec");
+
+    // Run the program
     prog.run();
 
     return 0;

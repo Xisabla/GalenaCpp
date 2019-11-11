@@ -1,75 +1,62 @@
 #include "./program.h"
 
-Program::Program() : instructions(), nb_instr(0), tokens(), pile(){};
-Program::Program(map<int, string> tokens) : instructions(), nb_instr(0), tokens(tokens), pile(){};
+Program::Program() : instructions(), nb_instr(0), pile(){};
 
-int Program::ins(int ins, double data)
+int Program::ins(Instruction ins, double data)
 {
     instructions.push_back(make_pair(ins, data));
 
     return this->nb_instr++;
 }
 
-void Program::set_token(int token, string value)
+bool Program::read(string filename)
 {
-    this->tokens[token] = value;
+    ifstream file(filename);
+
+    return read(file);
 }
 
-void Program::set_tokens(map<int, string> tokens)
+bool Program::read(ifstream &is)
 {
-    this->tokens = tokens;
+    if (!is.is_open())
+        return false;
+
+    string line;
+
+    while (getline(is, line))
+    {
+        int i;
+        string ins_name;
+        double data;
+
+        istringstream iss(line);
+        if (!(iss >> i >> ins_name >> data))
+            break;
+
+        instructions.push_back(make_pair(get_ins(ins_name), data));
+    }
+
+    return true;
 }
 
-int Program::get_token(string name)
-{
-    for (auto &t : this->tokens)
-        if (t.second == name)
-            return t.first;
-
-    return -1;
-}
-
-map<string, int> Program::get_tokens()
-{
-    map<string, int> tokens;
-
-    for (auto &t : this->tokens)
-        tokens[t.second] = t.first;
-
-    return tokens;
-}
-
-string Program::get_token_name(int token)
-{
-    if (tokens.find(token) != tokens.end())
-        return tokens[token];
-
-    return to_string(token);
-}
-
-map<int, string> Program::get_token_names()
-{
-    return tokens;
-}
-
-bool Program::token_is(int ins, string name)
-{
-    return ins == get_token(name);
-}
-
-void Program::write(string filename)
+bool Program::write(string filename)
 {
     ofstream file(filename);
 
-    write(file);
+    return write(file);
 }
 
-void Program::write(ofstream &fs)
+bool Program::write(ofstream &fs)
 {
+    if (!fs.is_open())
+        return false;
+
     int i = 0;
 
     for (auto &ins : instructions)
-        fs << i++ << '\t' << get_token_name(ins.first) << '\t' << ins.second << endl;
+        fs << i++ << '\t' << name(ins.first) << '\t' << ins.second << endl;
+
+    return false;
 }
 
 void Program::run()
@@ -81,11 +68,18 @@ void Program::run()
 
     while (current_ins < instructions.size())
     {
-        auto ins = instructions[current_ins];
-        int token = ins.first;
+        Instruction ins = instructions[current_ins].first;
+        double data = instructions[current_ins].second;
 
-        // TODO: if (token_is(token, "ADD")) prog.exec_add()
-        if (token_is(token, "ADD"))
+        // TODO: Put instructions execution as private (public ?) methods
+        //      --> if(ins == SOMETHING) prog.exec_something(data);
+        // Then, give "current_ins" as a reference or make it as class member
+        //  to be edited by the "exec_something" method
+
+        // NOTE: Maybe create and give a context object (whatever it is, it may be useful)
+        //      --> prog.exec_something(data, context)
+
+        if (ins == ADD)
         {
             double x = pop();
             double y = pop();
@@ -94,9 +88,9 @@ void Program::run()
             cout << "(debug) " << x << " + " << y << " = " << x + y << endl;
             current_ins++;
         }
-        else if (token_is(token, "NUM"))
+        else if (ins == NUM)
         {
-            pile.push_back(ins.second);
+            pile.push_back(data);
             current_ins++;
         }
         else
@@ -136,14 +130,7 @@ ostream &operator<<(ostream &os, Program &prog)
 
     for (auto &ins : prog.instructions)
     {
-        os << "│ " << setw(5) << i++ << setw(5);
-
-        if (prog.tokens.find(ins.first) != prog.tokens.end())
-            os << prog.tokens[ins.first];
-        else
-            os << to_string(ins.first);
-
-        os << setw(28) << ins.second << " │" << endl;
+        os << "│ " << setw(5) << i++ << setw(5) << name(ins.first) << setw(28) << ins.second << " │" << endl;
     }
 
     os << "├────────────────────────────────────────┤" << endl;
