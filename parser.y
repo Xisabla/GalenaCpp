@@ -52,7 +52,7 @@ instruction: /* empty */
     ;
 
 option: 
-    OPTION IDENTIFIER           { prog.set_opt($2, true); }
+    OPTION IDENTIFIER           { prog.set_opt($2); }
     | OPTION IDENTIFIER BOOL    { prog.set_opt($2, $3); }
     ;
 
