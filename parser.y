@@ -24,7 +24,6 @@
     bool boolean;
 }
 
-%type <number> calcul
 %token <number> NUMBER
 %token <name> IDENTIFIER
 %token <boolean> BOOL
