@@ -79,7 +79,7 @@ clean: ## Clean builded files
 	@echo "Done" && echo 
 
 build/%.o: src/%.cpp src/%.h .depend ## Build object files
-	@mkdir -p $(dir $(OBJECTS))
+	@mkdir -p $(dir $@)
 	$(CXX) $(CXX_FLAGS) -g -c $< -o $@
 
 parser.tab.c: parser.y ## Build scanner
@@ -109,16 +109,14 @@ run: program ## Run the program
 # ─── SPIKES ─────────────────────────────────────────────────────────────────────
 #
 
-build/s_%: spikes/%.cpp build/%.o ## Common spike building
-	$(CXX) $(CXX_FLAGS) $^ -o $@
-	
-spike/%: build/s_% ## Common spike running
+spike/memory: spikes/memory.cpp build/memory/memory.o
+	$(CXX) $^ -o build/s_memory $(CXX_FLAGS)
 	@echo "=========================================="
 	@echo " START SPIKE: $@"
 	@echo "=========================================="
-	@./$<
+	./build/s_memory
 	@echo "=========================================="
 	@echo " END SPIKE: $@"
 	@echo "=========================================="
 
-spikes: $(patsubst ./spikes/%.cpp, ./spike/%, $(SPIKES)) ## Run all spikes
+spikes: spike/memory
