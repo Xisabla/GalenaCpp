@@ -10,6 +10,7 @@ string Instructions::name(Instruction ins)
     case MUL: return "MUL";
     case NUM: return "NUM";
     case OUT: return "OUT";
+    case SET: return "SET";
     case NONE: return "NONE";
     default: return to_string(ins);
     }
@@ -22,6 +23,7 @@ Instructions::Instruction Instructions::get_ins(string name)
     if (name == "DIV") return DIV;
     if (name == "MUL") return MUL;
     if (name == "NUM") return NUM;
+    if (name == "SET") return SET;
     if (name == "OUT") return OUT;
 
     return NONE;

@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "../instructions/instructions.h"
+#include "../memory/memory.h"
 
 using namespace Instructions;
 using namespace std;
@@ -24,6 +25,7 @@ public:
 
     // Instructions
     int ins(Instruction instr, double data);
+    int ins(Instruction instr, string data);
 
     // I/O Files
     bool read(string filename);
@@ -35,12 +37,12 @@ public:
     void run();
 
     // Executors
-    int exec_add(int &current_ins, double data = 0);
-    int exec_sub(int &current_ins, double data = 0);
-    int exec_div(int &current_ins, double data = 0);
-    int exec_mul(int &current_ins, double data = 0);
-    int exec_num(int &current_ins, double data);
-    int exec_out(int &current_ins, double data = 0);
+    int exec_add(int &current_ins, string data = "0");
+    int exec_sub(int &current_ins, string data = "0");
+    int exec_div(int &current_ins, string data = "0");
+    int exec_mul(int &current_ins, string data = "0");
+    int exec_num(int &current_ins, string data);
+    int exec_out(int &current_ins, string data = "0");
 
     // Options
     bool get_opt(string name);
@@ -52,12 +54,15 @@ public:
 private:
     // Members
     int nb_instr;                                   // number of instructions
-    vector<pair<Instruction, double>> instructions; // vector of instructions
-    vector<double> pile;                            // data pile
+    vector<pair<Instruction, string>> instructions; // vector of instructions
+    vector<string> pile;                            // data pile
     map<string, bool> opt;                          // options map
+    Memory memory;                                  // memory
 
     // Pile
-    double pop();
+    string pop();
+    void push(string data);
+    double pop_d();
     void push(double data);
 };
 

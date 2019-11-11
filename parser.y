@@ -49,7 +49,7 @@ main: /* empty */
 instruction: /* empty */
     | option
     | calcul                    { if(prog.get_opt("show_results")) prog.ins(OUT, 0); }
-    | IDENTIFIER EQUAL calcul       { cout << "TODO: ins(SET, " << $1 << ")" << endl; }
+    | IDENTIFIER EQUAL calcul   { prog.ins(SET, $1); }
     | instruction END_OF_LINE
     | instruction SEMI;
     ;

@@ -16,6 +16,7 @@ enum Instruction
     MUL,
     NUM,
     OUT,
+    SET,
     NONE
 };
 

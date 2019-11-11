@@ -10,19 +10,27 @@
 // ─── CONSTRUCTORS ───────────────────────────────────────────────────────────────
 //
 
-Program::Program() : instructions(), nb_instr(0), pile(), opt({{"welcome", true}}){};
+Program::Program() : instructions(), nb_instr(0), pile(), opt({{"welcome", true}}), memory(){};
 
-Program::Program(map<string, bool> opt) : instructions(), nb_instr(0), pile(), opt({{"welcome", true}}){};
+Program::Program(map<string, bool> opt) : instructions(), nb_instr(0), pile(), opt({{"welcome", true}}), memory(){};
 
 //
 // ─── INSTRUCTIONS ───────────────────────────────────────────────────────────────
 //
 
 /**
+ *  TODO: Comment
+ */
+int Program::ins(Instruction ins, double data)
+{
+    return this->ins(ins, to_string(data));
+}
+
+/**
  *  Insert an instruction into the instruction vector
  * 
  *  @param ins The instruction to insert
- *  @param data The specific data related to the instruction
+ *  @param data The specific data string related to the instruction
  *  @returns The instruction id inside the vector
  *  
  *  @example Program prog; prog.ins(ADD, 0);
@@ -30,7 +38,7 @@ Program::Program(map<string, bool> opt) : instructions(), nb_instr(0), pile(), o
  *
  *  NOTE: For documentation, specify each instruction, and its data
  */
-int Program::ins(Instruction ins, double data)
+int Program::ins(Instruction ins, string data)
 {
     instructions.push_back(make_pair(ins, data));
 
@@ -75,7 +83,7 @@ bool Program::read(ifstream &is)
     {
         int i;
         string ins_name;
-        double data;
+        string data;
 
         istringstream iss(line);
         if (!(iss >> i >> ins_name >> data))
@@ -147,7 +155,7 @@ void Program::run()
     while (current_ins < instructions.size())
     {
         Instruction ins = instructions[current_ins].first;
-        double data     = instructions[current_ins].second;
+        string data     = instructions[current_ins].second;
 
         // TODO: Build a map of executor methods
 
@@ -163,6 +171,16 @@ void Program::run()
             current_ins = exec_num(current_ins, data);
         else if (ins == OUT)
             current_ins = exec_out(current_ins, data);
+        else if (ins == SET)
+        {
+            // TODO: Do it in a better way
+            // TODO: Check the type of the variable to set
+            memory.set_double(data, pop_d());
+
+            if (get_opt("debug")) cout << "(debug) " << data << " = " << memory.get_double(data) << endl;
+
+            current_ins++;
+        }
         else
             current_ins++;
     }
@@ -183,10 +201,10 @@ void Program::run()
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_add(int &current_ins, double data)
+int Program::exec_add(int &current_ins, string data)
 {
-    double x = pop();
-    double y = pop();
+    double x = pop_d();
+    double y = pop_d();
 
     push(y + x);
 
@@ -209,10 +227,10 @@ int Program::exec_add(int &current_ins, double data)
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_sub(int &current_ins, double data)
+int Program::exec_sub(int &current_ins, string data)
 {
-    double x = pop();
-    double y = pop();
+    double x = pop_d();
+    double y = pop_d();
 
     push(y - x);
 
@@ -235,10 +253,10 @@ int Program::exec_sub(int &current_ins, double data)
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_div(int &current_ins, double data)
+int Program::exec_div(int &current_ins, string data)
 {
-    double x = pop();
-    double y = pop();
+    double x = pop_d();
+    double y = pop_d();
 
     push(y / x);
 
@@ -257,10 +275,10 @@ int Program::exec_div(int &current_ins, double data)
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_mul(int &current_ins, double data)
+int Program::exec_mul(int &current_ins, string data)
 {
-    double x = pop();
-    double y = pop();
+    double x = pop_d();
+    double y = pop_d();
 
     push(y * x);
 
@@ -276,10 +294,10 @@ int Program::exec_mul(int &current_ins, double data)
  *  Push a number into the pile
  * 
  *  @param current_ins The id of the current instruction in the instruction vector
- *  @param data The number to push to the pile
+ *  @param data The number (as a string) to push to the pile
  *  @returns The next instruction id
  */
-int Program::exec_num(int &current_ins, double data)
+int Program::exec_num(int &current_ins, string data)
 {
     push(data);
 
@@ -300,7 +318,7 @@ int Program::exec_num(int &current_ins, double data)
  * 
  *  NOTE: Data param can be used to set the precision, or some specific options
  */
-int Program::exec_out(int &current_ins, double data)
+int Program::exec_out(int &current_ins, string data)
 {
     cout << pop() << endl;
 
@@ -412,14 +430,14 @@ ostream &operator<<(ostream &os, Program &prog)
 /**
  *  Pop out the first value of the pile
  * 
- *  @returns The first value of the pile
+ *  @returns The first value of the pile as a string
  */
-double Program::pop()
+string Program::pop()
 {
     if (pile.size() == 0)
         return 0;
 
-    double val = pile[pile.size() - 1];
+    string val = pile[pile.size() - 1];
 
     pile.pop_back();
 
@@ -431,9 +449,29 @@ double Program::pop()
  * 
  *  @param data The value to push in the pile
  */
-void Program::push(double data)
+void Program::push(string data)
 {
     pile.push_back(data);
+}
+
+/**
+ *  Pop out the first value of the pile as a double
+ * 
+ *  @returns The first value of the pile as a double
+ */
+double Program::pop_d()
+{
+    return atof(pop().c_str());
+}
+
+/**
+ *  Push a double on top of the pile
+ * 
+ *  @param data The double value to push in the pile
+ */
+void Program::push(double data)
+{
+    push(to_string(data));
 }
 
 //
