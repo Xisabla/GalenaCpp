@@ -1,1 +1,10 @@
-- 2 / 5 * (3 + 6)
+// Options
+%option debug
+%option show_results
+
+// Simple example with all operations
+-5 * 2 / 4 + 2
+
+// Random generated examples
+19 + 4 + 49 - 34 / 11
+20 / (42 + 67) * 34 + 47

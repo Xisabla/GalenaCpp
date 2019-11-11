@@ -14,6 +14,8 @@ string Instructions::name(Instruction ins)
         return "MUL";
     case NUM:
         return "NUM";
+    case OUT:
+        return "OUT";
     case NONE:
         return "NONE";
     default:
@@ -33,5 +35,7 @@ Instructions::Instruction Instructions::get_ins(string name)
         return MUL;
     if (name == "NUM")
         return NUM;
+    if (name == "OUT")
+        return OUT;
     return NONE;
 }

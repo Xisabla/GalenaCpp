@@ -15,6 +15,7 @@ enum Instruction
     DIV,
     MUL,
     NUM,
+    OUT,
     NONE
 };
 

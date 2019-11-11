@@ -21,15 +21,18 @@
 %union {
     double number;
     char* name;
+    bool boolean;
 }
 
 %token <number> NUMBER
-%type <number> calcul
+%token <name> IDENTIFIER
+%token <boolean> BOOL
 
-%token END_OF_LINE
-%token SEMI
 %token LBRACKET
 %token RBRACKET
+%token END_OF_LINE
+%token SEMI
+%token OPTION
 
 
 %left PLUS MINUS
@@ -37,19 +40,27 @@
 
 %%
 
-main: 
+main: /* empty */
     | main instruction
     ;
 
-instruction: calcul             {  }     
+instruction: /* empty */
+    | calcul                    { if(prog.get_opt("show_results")) prog.ins(OUT, 0); }
+    | option
     | instruction END_OF_LINE
     | instruction SEMI;
     ;
 
-calcul: calcul PLUS calcul      { prog.ins(ADD, 0); }
+option: 
+    OPTION IDENTIFIER           { prog.set_opt($2, true); }
+    | OPTION IDENTIFIER BOOL    { prog.set_opt($2, $3); }
+    ;
+
+calcul:
+    calcul PLUS calcul          { prog.ins(ADD, 0); }
     | calcul MINUS calcul       { prog.ins(SUB, 0); }
-    | calcul TIMES calcul       { prog.ins(DIV, 0); }
-    | calcul DIVIDE calcul      { prog.ins(MUL, 0); }
+    | calcul TIMES calcul       { prog.ins(MUL, 0); }
+    | calcul DIVIDE calcul      { prog.ins(DIV, 0); }
     | LBRACKET calcul RBRACKET  { }
     | MINUS NUMBER              { prog.ins(NUM, -$2); }
     | NUMBER                    { prog.ins(NUM, $1); }

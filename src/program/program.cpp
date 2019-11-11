@@ -1,6 +1,7 @@
 #include "./program.h"
 
 Program::Program() : instructions(), nb_instr(0), pile(){};
+Program::Program(map<string, bool> opt) : instructions(), nb_instr(0), pile(), opt(opt){};
 
 int Program::ins(Instruction ins, double data)
 {
@@ -78,28 +79,108 @@ void Program::run()
 
         // NOTE: Maybe create and give a context object (whatever it is, it may be useful)
         //      --> prog.exec_something(data, context)
+        //      Useful things:
+        //          - bool: debug
 
         if (ins == ADD)
-        {
-            double x = pop();
-            double y = pop();
-            pile.push_back(x + y);
-
-            cout << "(debug) " << x << " + " << y << " = " << x + y << endl;
-            current_ins++;
-        }
+            current_ins = exec_add(current_ins, data);
+        else if (ins == SUB)
+            current_ins = exec_sub(current_ins, data);
+        else if (ins == DIV)
+            current_ins = exec_div(current_ins, data);
+        else if (ins == MUL)
+            current_ins = exec_mul(current_ins, data);
         else if (ins == NUM)
-        {
-            pile.push_back(data);
-            current_ins++;
-        }
+            current_ins = exec_num(current_ins, data);
+        else if (ins == OUT)
+            current_ins = exec_out(current_ins, data);
         else
-        {
             current_ins++;
-        }
     }
 
     cout << "==========================================" << endl;
+}
+
+int Program::exec_add(int current_ins, double data)
+{
+    double x = pop();
+    double y = pop();
+
+    push(y + x);
+
+    if (get_opt("debug"))
+        cout << "(debug) " << y << " + " << x << " = " << y + x << endl;
+
+    return ++current_ins;
+}
+
+int Program::exec_sub(int current_ins, double data)
+{
+    double x = pop();
+    double y = pop();
+
+    push(y - x);
+
+    if (get_opt("debug"))
+        cout << "(debug) " << y << " - " << x << " = " << y - x << endl;
+
+    return ++current_ins;
+}
+
+int Program::exec_div(int current_ins, double data)
+{
+    double x = pop();
+    double y = pop();
+
+    push(y / x);
+
+    if (get_opt("debug"))
+        cout << "(debug) " << y << " / " << x << " = " << y / x << endl;
+
+    return ++current_ins;
+}
+
+int Program::exec_mul(int current_ins, double data)
+{
+    double x = pop();
+    double y = pop();
+
+    push(y * x);
+
+    if (get_opt("debug"))
+        cout << "(debug) " << y << " * " << x << " = " << y * x << endl;
+
+    return ++current_ins;
+}
+
+int Program::exec_num(int current_ins, double data)
+{
+    push(data);
+
+    if (get_opt("debug"))
+        cout << "(debug) push: " << data << endl;
+
+    return ++current_ins;
+}
+
+int Program::exec_out(int current_ins, double data)
+{
+    cout << pop() << endl;
+
+    return ++current_ins;
+}
+
+bool Program::get_opt(string name)
+{
+    if (opt.find(name) != opt.end())
+        return opt[name];
+
+    return false;
+}
+
+void Program::set_opt(string name, bool value)
+{
+    opt[name] = value;
 }
 
 ostream &operator<<(ostream &os, Program &prog)
@@ -152,4 +233,9 @@ double Program::pop()
     pile.pop_back();
 
     return val;
+}
+
+void Program::push(double data)
+{
+    pile.push_back(data);
 }
