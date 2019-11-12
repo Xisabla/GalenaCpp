@@ -84,7 +84,7 @@ build/%.o: src/%.cpp src/%.h .depend ## Build object files
 
 parser.tab.c: parser.y ## Build scanner
 	@echo "Building parser..."
-	bison parser.y
+	bison parser.y -Wnone
 	@echo "Done" && echo 
 
 lex.yy.c: parser.tab.c scanner.l ## Build scanner
