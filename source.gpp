@@ -1,6 +1,6 @@
 // Options
 %option debug
-%option show_result
+// %option show_results
 %option write true
 
 // Simple example with all operations
@@ -10,4 +10,6 @@
 19 + 4 + 49 - 34 / 11
 20 / (42 + 67) * 34 + 47
 
-a = 2 + 5
+saisir b
+afficher 2 + 5
+afficher b

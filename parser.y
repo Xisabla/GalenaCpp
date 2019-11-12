@@ -15,6 +15,8 @@
 
     // Intialize program
     Program prog;
+    bool err = false;
+    static int line = 1;
 
 %}
 
@@ -31,6 +33,8 @@
 %token EQUAL
 %token LBRACKET
 %token RBRACKET
+%token OUTPUT
+%token INPUT
 %token END_OF_LINE
 %token SEMI
 %token OPTION
@@ -48,8 +52,9 @@ main: /* empty */
 instruction: /* empty */
     | option
     | calcul                    { if(prog.get_opt("show_results")) prog.ins(OUT, 0); }
+    | io
     | IDENTIFIER EQUAL calcul   { prog.ins(SET, $1); }
-    | instruction END_OF_LINE
+    | instruction END_OF_LINE   { line++; }
     | instruction SEMI;
     ;
 
@@ -68,6 +73,11 @@ calcul:
     | NUMBER                    { prog.ins(NUM, $1); }
     ;
 
+io:
+    INPUT IDENTIFIER            { prog.ins(INP, $2); prog.ins(SET, $2); }
+    | OUTPUT calcul             { prog.ins(OUT, 0); }
+    | OUTPUT IDENTIFIER         { prog.ins(GET, $2); prog.ins(OUT, $2); }
+    ;
 %%
 
 int main(int argc, char **argv) {
@@ -83,6 +93,10 @@ int main(int argc, char **argv) {
     // Parse
     yyparse();
 
+    if(err) {
+        return 1;
+    }
+
     // Show and write execution commands
     cout << prog << endl;
 
@@ -93,7 +107,9 @@ int main(int argc, char **argv) {
 }
 
 int yyerror(char const *s) {					
-    cout << "[ERROR]" << s << endl;
+    cout << "Error at line " << line << ": " << s << endl;
+
+    err = true;
 
     return 1;
 }

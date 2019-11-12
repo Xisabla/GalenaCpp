@@ -171,6 +171,18 @@ void Program::run()
             current_ins = exec_num(current_ins, data);
         else if (ins == OUT)
             current_ins = exec_out(current_ins, data);
+        else if (ins == INP)
+        {
+            // TODO: Do it in a better way
+            string val;
+            string prompt = (data == "" ? "Value" : data) + " = ";
+            cout << prompt;
+            cin >> val;
+
+            push(val);
+
+            current_ins++;
+        }
         else if (ins == SET)
         {
             // TODO: Do it in a better way
@@ -178,6 +190,14 @@ void Program::run()
             memory.set_double(data, pop_d());
 
             if (get_opt("debug")) cout << "(debug) " << data << " = " << memory.get_double(data) << endl;
+
+            current_ins++;
+        }
+        else if (ins == GET)
+        {
+            // TODO: Do it in a better way
+            // TODO: Check the type of the variable to set
+            push(memory.get_double(data));
 
             current_ins++;
         }
@@ -320,6 +340,7 @@ int Program::exec_num(int &current_ins, string data)
  */
 int Program::exec_out(int &current_ins, string data)
 {
+    if (data != "0.000000" && data != "") cout << data << " = ";
     cout << pop() << endl;
 
     return ++current_ins;
