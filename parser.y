@@ -71,12 +71,12 @@ calcul:
     | LBRACKET calcul RBRACKET  { }
     | MINUS NUMBER              { prog.ins(NUM, -$2); }
     | NUMBER                    { prog.ins(NUM, $1); }
+    | IDENTIFIER                { prog.ins(GET, $1); }
     ;
 
 io:
     INPUT IDENTIFIER            { prog.ins(INP, $2); prog.ins(SET, $2); }
     | OUTPUT calcul             { prog.ins(OUT, 0); }
-    | OUTPUT IDENTIFIER         { prog.ins(GET, $2); prog.ins(OUT, $2); }
     ;
 %%
 
