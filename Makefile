@@ -34,6 +34,9 @@ SPIKES=$(shell find ./spikes -type f -name "*.cpp")
 # Source file
 PGR_SOURCE=source.gpp
 
+# Input file for auto run
+INPUT_FILE=input.txt
+
 
 WELCOME_MSG=" ┌────────────────────────────────────────┐\n\
 │                                        │\n\
@@ -104,6 +107,9 @@ program: build ## Build and fix program executable
 
 run: program ## Run the program
 	./program $(PGR_SOURCE)
+	
+auto: program ## Run the program with input file (for tests)
+	./program $(PGR_SOURCE) < $(INPUT_FILE)
 
 #
 # ─── SPIKES ─────────────────────────────────────────────────────────────────────

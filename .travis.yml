@@ -13,6 +13,6 @@ addons:
       - flex
 
 script:
-  - make clean spikes       # Assume that the spikes runs
-  - make clean build        # Assume that the program build
-  - make clean run          # Assume that the program is running with the examples
+  - make clean spikes # Assume that the spikes runs
+  - make clean build # Assume that the program build
+  - make clean auto # Assume that the program is running with the examples

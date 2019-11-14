@@ -1,5 +1,7 @@
 // Options
-//%option debug faux
+%option debug
+%option show_results
+// TODO: Rename "show_results, write" with french words
 //%option show_results
 //%option write true
 
@@ -11,5 +13,5 @@
 20 / (42 + 67) * 34 + 47
 
 a = 3 * 6
-b = 7 + 5
+saisir b
 afficher a + b
