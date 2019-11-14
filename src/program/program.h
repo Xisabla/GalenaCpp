@@ -43,6 +43,9 @@ public:
     int exec_mul(int &current_ins, string data = "0");
     int exec_num(int &current_ins, string data);
     int exec_out(int &current_ins, string data = "0");
+    int exec_inp(int &current_ins, string data);
+    int exec_set(int &current_ins, string data);
+    int exec_get(int &current_ins, string data);
 
     // Options
     bool get_opt(string name);

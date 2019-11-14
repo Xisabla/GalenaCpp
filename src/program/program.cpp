@@ -19,7 +19,11 @@ Program::Program(map<string, bool> opt) : instructions(), nb_instr(0), pile(), o
 //
 
 /**
- *  TODO: Comment
+ *  Insert an instruction as a double into the instruction vector
+ * 
+ *  @param ins The instruction to insert
+ *  @param data The specific data string related to the instruction
+ *  @returns The instruction id inside the vector
  */
 int Program::ins(Instruction ins, double data)
 {
@@ -172,35 +176,11 @@ void Program::run()
         else if (ins == OUT)
             current_ins = exec_out(current_ins, data);
         else if (ins == INP)
-        {
-            // TODO: Do it in a better way
-            string val;
-            string prompt = (data == "" ? "Value" : data) + " = ";
-            cout << prompt;
-            cin >> val;
-
-            push(val);
-
-            current_ins++;
-        }
+            current_ins = exec_inp(current_ins, data);
         else if (ins == SET)
-        {
-            // TODO: Do it in a better way
-            // TODO: Check the type of the variable to set
-            memory.set_double(data, pop_d());
-
-            if (get_opt("debug")) cout << "(debug) " << data << " = " << memory.get_double(data) << endl;
-
-            current_ins++;
-        }
+            current_ins = exec_set(current_ins, data);
         else if (ins == GET)
-        {
-            // TODO: Do it in a better way
-            // TODO: Check the type of the variable to set
-            push(memory.get_double(data));
-
-            current_ins++;
-        }
+            current_ins = exec_get(current_ins, data);
         else
             current_ins++;
     }
@@ -342,6 +322,64 @@ int Program::exec_out(int &current_ins, string data)
 {
     if (data != "0.000000" && data != "") cout << data << " = ";
     cout << pop() << endl;
+
+    return ++current_ins;
+}
+
+/**
+ *  Execute "INP" instruction
+ * 
+ *  Prompt a value and then push it into the pile
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data (facultative) The prompt message to show
+ *  @returns The next instruction id
+ */
+int Program::exec_inp(int &current_ins, string data)
+{
+    string val;
+    cout << ((data == "" || data == "0") ? "Value" : data) + " = ";
+    cin >> val;
+
+    push(val);
+
+    return ++current_ins;
+}
+
+/**
+ *  Execute "SET" instruction
+ * 
+ *  Pop the value on top of the pile and put it in the memory
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data The name of the variable
+ *  @returns The next instruction id
+ * 
+ *  NOTE: Find a way to give the type of the variable (eg: data = type + ":" + name)
+ */
+int Program::exec_set(int &current_ins, string data)
+{
+    // NOTE: if multiple var type, check the type and don't use pop_d and set_double
+    memory.set_double(data, pop_d());
+
+    if (get_opt("debug")) cout << "(debug) " << data << " = " << memory.get_double(data) << endl;
+
+    return ++current_ins;
+}
+
+/**
+ *  Execute "GET" instruction
+ * 
+ *  Find the value a the variable in the memory and push it in pile
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data The name of the variable
+ *  @returns The next instruction id
+ */
+int Program::exec_get(int &current_ins, string data)
+{
+    // NOTE: if multiple var type, check the type and don't use get_double
+    push(memory.get_double(data));
 
     return ++current_ins;
 }
