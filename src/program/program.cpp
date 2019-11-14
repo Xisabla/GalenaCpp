@@ -161,8 +161,6 @@ void Program::run()
         Instruction ins = instructions[current_ins].first;
         string data     = instructions[current_ins].second;
 
-        // TODO: Build a map of executor methods
-
         if (ins == ADD)
             current_ins = exec_add(current_ins, data);
         else if (ins == SUB)
