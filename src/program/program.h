@@ -16,6 +16,12 @@
 using namespace Instructions;
 using namespace std;
 
+typedef struct targeter
+{
+    int ic_goto;
+    int ic_false;
+} t_targeter;
+
 class Program
 {
 public:
@@ -24,8 +30,10 @@ public:
     Program(map<string, bool> opt);
 
     // Instructions
+    int ic();
     int ins(Instruction instr, double data);
     int ins(Instruction instr, string data);
+    string &operator[](int idx);
 
     // I/O Files
     bool read(string filename);
@@ -37,15 +45,17 @@ public:
     void run();
 
     // Executors
-    int exec_add(int &current_ins, string data = "0");
-    int exec_sub(int &current_ins, string data = "0");
-    int exec_div(int &current_ins, string data = "0");
-    int exec_mul(int &current_ins, string data = "0");
+    int exec_add(int &current_ins, string data);
+    int exec_sub(int &current_ins, string data);
+    int exec_div(int &current_ins, string data);
+    int exec_mul(int &current_ins, string data);
     int exec_num(int &current_ins, string data);
-    int exec_out(int &current_ins, string data = "0");
+    int exec_out(int &current_ins, string data);
     int exec_inp(int &current_ins, string data);
     int exec_set(int &current_ins, string data);
     int exec_get(int &current_ins, string data);
+    int exec_jnz(int &current_ins, string data);
+    int exec_jmp(int &current_ins, string data);
 
     // Options
     bool get_opt(string name);

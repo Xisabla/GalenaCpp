@@ -24,11 +24,16 @@
     double number;
     char* name;
     bool boolean;
+    t_targeter targeter;
 }
 
 %token <number> NUMBER
 %token <name> IDENTIFIER
 %token <boolean> BOOL
+%token <targeter> IF
+%token THEN
+%token ELSE
+%token ENDIF
 
 %token EQUAL
 %token LBRACKET
@@ -45,8 +50,8 @@
 
 %%
 
-main: /* empty */
-    | main instruction
+main: main instruction END_OF_LINE  { line++; }
+    |
     ;
 
 instruction: /* empty */
@@ -54,8 +59,16 @@ instruction: /* empty */
     | calcul                    { if(prog.get_opt("show_results")) prog.ins(OUT, 0); }
     | io
     | IDENTIFIER EQUAL calcul   { prog.ins(SET, $1); }
+    | IF condition END_OF_LINE  { $1.ic_goto = prog.ic(); prog.ins(JNZ, 0); }
+      THEN END_OF_LINE main     { $1.ic_false = prog.ic(); prog.ins(JMP, 0); prog[$1.ic_goto] = to_string(prog.ic()); }
+      ELSE END_OF_LINE main     { prog[$1.ic_false] = to_string(prog.ic()); }
+      ENDIF                     { }
     | instruction END_OF_LINE   { line++; }
     | instruction SEMI;
+    ;
+
+condition:
+    calcul                      { }
     ;
 
 option: 

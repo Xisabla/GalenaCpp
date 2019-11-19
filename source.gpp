@@ -3,7 +3,7 @@
 %option show_results
 // TODO: Rename "show_results, write" with french words
 //%option show_results
-//%option write true
+%option write true
 
 // Simple example with all operations
 -5 * 2 / 4 + 2
@@ -15,3 +15,10 @@
 a = 3 * 6
 saisir b
 afficher a + b
+
+si b
+alors
+    afficher 1
+sinon
+    afficher 2
+finsi

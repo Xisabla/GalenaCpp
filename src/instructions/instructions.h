@@ -19,6 +19,8 @@ enum Instruction
     INP,
     SET,
     GET,
+    JMP,
+    JNZ,
     NONE
 };
 

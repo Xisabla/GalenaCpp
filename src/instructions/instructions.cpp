@@ -13,6 +13,8 @@ string Instructions::name(Instruction ins)
     case INP: return "INP";
     case SET: return "SET";
     case GET: return "GET";
+    case JNZ: return "JNZ";
+    case JMP: return "JMP";
     case NONE: return "NONE";
     default: return to_string(ins);
     }
@@ -28,6 +30,8 @@ Instructions::Instruction Instructions::get_ins(string name)
     if (name == "OUT") return OUT;
     if (name == "INP") return INP;
     if (name == "SET") return SET;
+    if (name == "JNZ") return JNZ;
+    if (name == "JMP") return JMP;
     if (name == "GET") return GET;
 
     return NONE;

@@ -18,6 +18,11 @@ Program::Program(map<string, bool> opt) : instructions(), nb_instr(0), pile(), o
 // ─── INSTRUCTIONS ───────────────────────────────────────────────────────────────
 //
 
+int Program::ic()
+{
+    return nb_instr;
+}
+
 /**
  *  Insert an instruction as a double into the instruction vector
  * 
@@ -47,6 +52,22 @@ int Program::ins(Instruction ins, string data)
     instructions.push_back(make_pair(ins, data));
 
     return this->nb_instr++;
+}
+
+/**
+ *  Get the instruction data for a given instruction id
+ *  Allow edition
+ * 
+ *  @param idx The id of the instruction in the instruction vector
+ *  @returns The instruction data string as reference
+ * 
+ *  @example string data = prog[12]
+ *  @example prog[32] = "value"
+ *  
+ */
+string &Program::operator[](int idx)
+{
+    return instructions[idx].second;
 }
 
 // ────────────────────────────────────────────────────────────────────────────────
@@ -179,6 +200,10 @@ void Program::run()
             current_ins = exec_set(current_ins, data);
         else if (ins == GET)
             current_ins = exec_get(current_ins, data);
+        else if (ins == JNZ)
+            current_ins = exec_jnz(current_ins, data);
+        else if (ins == JMP)
+            current_ins = exec_jmp(current_ins, data);
         else
             current_ins++;
     }
@@ -380,6 +405,42 @@ int Program::exec_get(int &current_ins, string data)
     push(memory.get_double(data));
 
     return ++current_ins;
+}
+
+/**
+ *  EXECUTE "JNZ" instruction
+ * 
+ *  Pop out the first value of the pile, if this value (as a boolean cast)
+ *  is false, then set the current instruction as the one given in data.
+ *  Otherwise, go to the next instruction
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Tha instruction id (casted as a string) for the "false" case
+ *  @returns The next instruction id
+ */
+int Program::exec_jnz(int &current_ins, string data)
+{
+    double x = pop_d();
+
+    current_ins = (x ? (current_ins + 1) : atoi(data.c_str()));
+
+    return current_ins;
+}
+
+/**
+ *  EXECUTE "JMP" instruction
+ * 
+ *  Jump to the given instruction id
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Tha instruction id (casted as a string)
+ *  @returns The next instruction id 
+ */
+int Program::exec_jmp(int &current_ins, string data)
+{
+    current_ins = atoi(data.c_str());
+
+    return current_ins;
 }
 
 //

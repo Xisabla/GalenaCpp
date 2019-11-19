@@ -20,6 +20,10 @@
 "true"|"false"|"vrai"|"faux"    { yylval.boolean = !((strcmp(yytext, "true")) && (strcmp(yytext, "vrai"))); return BOOL; }
 "afficher"                      { return OUTPUT; }
 "saisir"                        { return INPUT; }
+"si"|"SI"|"Si"                  { return IF; }
+"alors"|"ALORS"|"Alors"         { return THEN; }
+"sinon"|"SINON"|"Sinon"         { return ELSE; }
+"finsi"|"FINSI"|"FinSi"         { return ENDIF; }
 ([0-9]+(\.[0-9]*)?)|(\.[0-9])   { yylval.number = atof(yytext); return NUMBER; }
 [A-Za-z_][0-9A-Za-z_]*          { yylval.name = strdup(yytext); return IDENTIFIER; }
 [ \t]                           ;
