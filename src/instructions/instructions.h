@@ -26,6 +26,7 @@ enum Instruction
     CMPGTE,
     CMPLSS,
     CMPLSE,
+    CMPNOT,
     CMPOR,
     CMPAND,
     NONE

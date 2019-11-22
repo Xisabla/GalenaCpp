@@ -16,7 +16,7 @@ a = 3 * 6
 saisir b
 afficher a + b
 
-si b > 2
+si !b
 alors
     afficher 1
 sinon

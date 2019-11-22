@@ -20,7 +20,8 @@ string Instructions::name(Instruction ins)
     case CMPGTE: return "CMPGTE";
     case CMPLSS: return "CMPLSS";
     case CMPLSE: return "CMPLSE";
-    case CMPOR: return "OR";
+    case CMPNOT: return "CMPNOT";
+    case CMPOR: return " OR ";
     case CMPAND: return "AND";
     case NONE: return "NONE";
     default: return to_string(ins);
@@ -40,6 +41,14 @@ Instructions::Instruction Instructions::get_ins(string name)
     if (name == "JNZ") return JNZ;
     if (name == "JMP") return JMP;
     if (name == "GET") return GET;
+    if (name == "CMPEQU") return CMPEQU;
+    if (name == "CMPGTR") return CMPGTR;
+    if (name == "CMPGTE") return CMPGTE;
+    if (name == "CMPLSS") return CMPLSS;
+    if (name == "CMPLSE") return CMPLSE;
+    if (name == "CMPNOT") return CMPNOT;
+    if (name == "CMPOR") return CMPOR;
+    if (name == "CMPAND") return CMPAND;
 
     return NONE;
 }

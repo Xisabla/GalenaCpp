@@ -204,6 +204,22 @@ void Program::run()
             current_ins = exec_jnz(current_ins, data);
         else if (ins == JMP)
             current_ins = exec_jmp(current_ins, data);
+        else if (ins == CMPEQU)
+            current_ins = exec_cmpequ(current_ins, data);
+        else if (ins == CMPGTR)
+            current_ins = exec_cmpgtr(current_ins, data);
+        else if (ins == CMPGTE)
+            current_ins = exec_cmpgte(current_ins, data);
+        else if (ins == CMPLSS)
+            current_ins = exec_cmplss(current_ins, data);
+        else if (ins == CMPLSE)
+            current_ins = exec_cmplse(current_ins, data);
+        else if (ins == CMPNOT)
+            current_ins = exec_cmpnot(current_ins, data);
+        else if (ins == CMPOR)
+            current_ins = exec_cmpor(current_ins, data);
+        else if (ins == CMPAND)
+            current_ins = exec_cmpand(current_ins, data);
         else
             current_ins++;
     }
@@ -441,6 +457,117 @@ int Program::exec_jmp(int &current_ins, string data)
     current_ins = atoi(data.c_str());
 
     return current_ins;
+}
+
+/**
+ *  TODO: Comment 
+ */
+int Program::exec_cmpequ(int &current_ins, string data)
+{
+
+    double x = pop_d();
+    double y = pop_d();
+
+    push(x == y);
+
+    return ++current_ins;
+}
+
+/**
+ *  TODO: Comment 
+ */
+int Program::exec_cmpgtr(int &current_ins, string data)
+{
+
+    double x = pop_d();
+    double y = pop_d();
+
+    push(y > x);
+
+    return ++current_ins;
+}
+
+/**
+ *  TODO: Comment 
+ */
+int Program::exec_cmpgte(int &current_ins, string data)
+{
+
+    double x = pop_d();
+    double y = pop_d();
+
+    push(y >= x);
+
+    return ++current_ins;
+}
+
+/**
+ *  TODO: Comment 
+ */
+int Program::exec_cmplss(int &current_ins, string data)
+{
+
+    double x = pop_d();
+    double y = pop_d();
+
+    push(y < x);
+
+    return ++current_ins;
+}
+
+/**
+ *  TODO: Comment 
+ */
+int Program::exec_cmplse(int &current_ins, string data)
+{
+
+    double x = pop_d();
+    double y = pop_d();
+
+    push(y <= x);
+
+    return ++current_ins;
+}
+
+/**
+ *  TODO: Comment 
+ */
+int Program::exec_cmpnot(int &current_ins, string data)
+{
+
+    double x = pop_d();
+
+    push(!x);
+
+    return ++current_ins;
+}
+
+/**
+ *  TODO: Comment 
+ */
+int Program::exec_cmpor(int &current_ins, string data)
+{
+
+    double x = pop_d();
+    double y = pop_d();
+
+    push(y || x);
+
+    return ++current_ins;
+}
+
+/**
+ *  TODO: Comment 
+ */
+int Program::exec_cmpand(int &current_ins, string data)
+{
+
+    double x = pop_d();
+    double y = pop_d();
+
+    push(y && x);
+
+    return ++current_ins;
 }
 
 //

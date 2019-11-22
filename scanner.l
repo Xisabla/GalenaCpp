@@ -24,10 +24,12 @@
 "alors"|"ALORS"|"Alors"         { return THEN; }
 "sinon"|"SINON"|"Sinon"         { return ELSE; }
 "finsi"|"FINSI"|"FinSi"         { return ENDIF; }
+"=="|"egal"|"Egal"|"EGAL"       { return IS_EQUAL; }
 ">"                             { return IS_GREATER; }
 ">="                            { return IS_GREATER_EQUAL; }
 "<"                             { return IS_LESS; }
 "<="                            { return IS_LESS_EQUAL; }
+"non"|"NON"|"Non"               { return NOT; }
 "ou"|"OU"|"Ou"                  { return OR; }
 "et"|"ET"|"Et"                  { return AND; }
 ([0-9]+(\.[0-9]*)?)|(\.[0-9])   { yylval.number = atof(yytext); return NUMBER; }

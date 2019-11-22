@@ -56,6 +56,14 @@ public:
     int exec_get(int &current_ins, string data);
     int exec_jnz(int &current_ins, string data);
     int exec_jmp(int &current_ins, string data);
+    int exec_cmpequ(int &current_ins, string data);
+    int exec_cmpgtr(int &current_ins, string data);
+    int exec_cmpgte(int &current_ins, string data);
+    int exec_cmplss(int &current_ins, string data);
+    int exec_cmplse(int &current_ins, string data);
+    int exec_cmpnot(int &current_ins, string data);
+    int exec_cmpor(int &current_ins, string data);
+    int exec_cmpand(int &current_ins, string data);
 
     // Options
     bool get_opt(string name);

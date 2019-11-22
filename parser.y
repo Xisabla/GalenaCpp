@@ -48,6 +48,7 @@
 %token IS_GREATER_EQUAL
 %token IS_LESS
 %token IS_LESS_EQUAL
+%token NOT
 %token OR
 %token AND
 
@@ -76,6 +77,7 @@ instruction: /* empty */
 
 condition:
     calcul                              { }
+    | NOT condition                     { prog.ins(CMPNOT, 0); }
     | calcul IS_EQUAL calcul            { prog.ins(CMPEQU, 0); }
     | calcul IS_GREATER calcul          { prog.ins(CMPGTR, 0); }
     | calcul IS_GREATER_EQUAL calcul    { prog.ins(CMPGTE, 0); }
