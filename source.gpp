@@ -14,11 +14,10 @@
 
 a = 3 * 6
 saisir b
-afficher a + b
 
-tant que b < 5
+répéter b
 faire
-    b = b + 1
+    afficher 2
 fin
 
 afficher b

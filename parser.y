@@ -30,7 +30,7 @@
 // Values tokens
 %token <number> NUMBER
 %token <name> IDENTIFIER
-// NOTE: use this one day: %token <boolean> BOOL
+%token <boolean> BOOL
 
 // Simple instructions
 %token OPTION

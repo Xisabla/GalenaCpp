@@ -34,6 +34,7 @@
 "et"|"ET"|"Et"                  { return AND; }
 "tant que"|"TANT QUE"|"Tant Que"    { return WHILE; }
 "faire"|"FAIRE"|"Faire"         { return DO; }
+"répéter"|"REPETER"|"Répéter"   { return REPEAT; }
 ([0-9]+(\.[0-9]*)?)|(\.[0-9])   { yylval.number = atof(yytext); return NUMBER; }
 [A-Za-z_][0-9A-Za-z_]*          { yylval.name = strdup(yytext); return IDENTIFIER; }
 [ \t]                           ;
