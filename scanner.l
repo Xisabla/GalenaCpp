@@ -23,7 +23,7 @@
 "si"|"SI"|"Si"                  { return IF; }
 "alors"|"ALORS"|"Alors"         { return THEN; }
 "sinon"|"SINON"|"Sinon"         { return ELSE; }
-"finsi"|"FINSI"|"FinSi"         { return ENDIF; }
+"fin"|"FIN"|"Fin"               { return END; }
 "=="|"egal"|"Egal"|"EGAL"       { return IS_EQUAL; }
 ">"                             { return IS_GREATER; }
 ">="                            { return IS_GREATER_EQUAL; }
@@ -32,6 +32,8 @@
 "non"|"NON"|"Non"               { return NOT; }
 "ou"|"OU"|"Ou"                  { return OR; }
 "et"|"ET"|"Et"                  { return AND; }
+"tant que"|"TANT QUE"|"Tant Que"    { return WHILE; }
+"faire"|"FAIRE"|"Faire"         { return DO; }
 ([0-9]+(\.[0-9]*)?)|(\.[0-9])   { yylval.number = atof(yytext); return NUMBER; }
 [A-Za-z_][0-9A-Za-z_]*          { yylval.name = strdup(yytext); return IDENTIFIER; }
 [ \t]                           ;

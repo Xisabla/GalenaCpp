@@ -33,7 +33,7 @@
 %token <targeter> IF
 %token THEN
 %token ELSE
-%token ENDIF
+%token END
 
 %token EQUAL
 %token LBRACKET
@@ -51,6 +51,8 @@
 %token NOT
 %token OR
 %token AND
+%token <targeter> WHILE
+%token DO
 
 
 %left PLUS MINUS
@@ -70,7 +72,11 @@ instruction: /* empty */
     | IF condition END_OF_LINE  { $1.ic_goto = prog.ic(); prog.ins(JNZ, 0); }
       THEN END_OF_LINE main     { $1.ic_false = prog.ic(); prog.ins(JMP, 0); prog[$1.ic_goto] = to_string(prog.ic()); }
       ELSE END_OF_LINE main     { prog[$1.ic_false] = to_string(prog.ic()); }
-      ENDIF                     { }
+      END                       { }
+    | WHILE                     { $1.ic_false = prog.ic(); }
+      condition END_OF_LINE     { $1.ic_goto = prog.ic(); prog.ins(JNZ, 0); }
+      DO END_OF_LINE main       { prog.ins(JMP, $1.ic_false); prog[$1.ic_goto] = to_string(prog.ic()); }
+      END                       { }
     | instruction END_OF_LINE   { line++; }
     | instruction SEMI;
     ;

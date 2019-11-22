@@ -16,9 +16,9 @@ a = 3 * 6
 saisir b
 afficher a + b
 
-si !b
-alors
-    afficher 1
-sinon
-    afficher 2
-finsi
+tant que b < 5
+faire
+    b = b + 1
+fin
+
+afficher b
