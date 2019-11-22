@@ -43,6 +43,13 @@
 %token END_OF_LINE
 %token SEMI
 %token OPTION
+%token IS_EQUAL
+%token IS_GREATER
+%token IS_GREATER_EQUAL
+%token IS_LESS
+%token IS_LESS_EQUAL
+%token OR
+%token AND
 
 
 %left PLUS MINUS
@@ -68,7 +75,14 @@ instruction: /* empty */
     ;
 
 condition:
-    calcul                      { }
+    calcul                              { }
+    | calcul IS_EQUAL calcul            { prog.ins(CMPEQU, 0); }
+    | calcul IS_GREATER calcul          { prog.ins(CMPGTR, 0); }
+    | calcul IS_GREATER_EQUAL calcul    { prog.ins(CMPGTE, 0); }
+    | calcul IS_LESS calcul             { prog.ins(CMPLSS, 0); }
+    | calcul IS_LESS_EQUAL calcul       { prog.ins(CMPLSE, 0); }
+    | condition OR condition            { prog.ins(CMPOR, 0); }
+    | condition AND condition           { prog.ins(CMPAND, 0); }
     ;
 
 option: 

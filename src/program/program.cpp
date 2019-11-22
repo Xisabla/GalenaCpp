@@ -149,7 +149,7 @@ bool Program::write(ofstream &fs) const
     int i = 0;
 
     for (auto &ins : instructions)
-        fs << i++ << '\t' << name(ins.first) << '\t' << ins.second << endl;
+        fs << i++ << '\t' << setw(13) << name(ins.first) << "\t\t" << ins.second << endl;
 
     return false;
 }
@@ -520,7 +520,7 @@ ostream &operator<<(ostream &os, Program &prog)
 
     for (auto &ins : prog.instructions)
     {
-        os << "│ " << setw(5) << i++ << setw(5) << name(ins.first) << setw(28) << ins.second << " │" << endl;
+        os << "│ " << setw(5) << i++ << setw(13) << name(ins.first) << setw(20) << ins.second << " │" << endl;
     }
 
     os << "├────────────────────────────────────────┤" << endl;

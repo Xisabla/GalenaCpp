@@ -21,6 +21,13 @@ enum Instruction
     GET,
     JMP,
     JNZ,
+    CMPEQU,
+    CMPGTR,
+    CMPGTE,
+    CMPLSS,
+    CMPLSE,
+    CMPOR,
+    CMPAND,
     NONE
 };
 

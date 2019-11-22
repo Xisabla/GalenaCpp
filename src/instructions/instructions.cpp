@@ -15,6 +15,13 @@ string Instructions::name(Instruction ins)
     case GET: return "GET";
     case JNZ: return "JNZ";
     case JMP: return "JMP";
+    case CMPEQU: return "CMPEQU";
+    case CMPGTR: return "CMPGTR";
+    case CMPGTE: return "CMPGTE";
+    case CMPLSS: return "CMPLSS";
+    case CMPLSE: return "CMPLSE";
+    case CMPOR: return "OR";
+    case CMPAND: return "AND";
     case NONE: return "NONE";
     default: return to_string(ins);
     }

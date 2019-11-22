@@ -24,6 +24,12 @@
 "alors"|"ALORS"|"Alors"         { return THEN; }
 "sinon"|"SINON"|"Sinon"         { return ELSE; }
 "finsi"|"FINSI"|"FinSi"         { return ENDIF; }
+">"                             { return IS_GREATER; }
+">="                            { return IS_GREATER_EQUAL; }
+"<"                             { return IS_LESS; }
+"<="                            { return IS_LESS_EQUAL; }
+"ou"|"OU"|"Ou"                  { return OR; }
+"et"|"ET"|"Et"                  { return AND; }
 ([0-9]+(\.[0-9]*)?)|(\.[0-9])   { yylval.number = atof(yytext); return NUMBER; }
 [A-Za-z_][0-9A-Za-z_]*          { yylval.name = strdup(yytext); return IDENTIFIER; }
 [ \t]                           ;
