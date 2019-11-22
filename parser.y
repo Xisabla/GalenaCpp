@@ -27,22 +27,26 @@
     t_targeter targeter;
 }
 
+// Values tokens
 %token <number> NUMBER
 %token <name> IDENTIFIER
-%token <boolean> BOOL
-%token <targeter> IF
-%token THEN
-%token ELSE
-%token END
+// NOTE: use this one day: %token <boolean> BOOL
 
-%token EQUAL
-%token LBRACKET
-%token RBRACKET
+// Simple instructions
+%token OPTION
 %token OUTPUT
 %token INPUT
-%token END_OF_LINE
-%token SEMI
-%token OPTION
+
+// Block/Loop tokens
+%token <targeter> IF
+%token <targeter> WHILE
+%token <targeter> REPEAT
+%token THEN
+%token ELSE
+%token DO
+%token END
+
+// Condition tokens
 %token IS_EQUAL
 %token IS_GREATER
 %token IS_GREATER_EQUAL
@@ -51,10 +55,15 @@
 %token NOT
 %token OR
 %token AND
-%token <targeter> WHILE
-%token DO
 
+// Seperators
+%token EQUAL
+%token LBRACKET
+%token RBRACKET
+%token END_OF_LINE
+%token SEMI
 
+// Operatators
 %left PLUS MINUS
 %left TIMES DIVIDE
 
@@ -76,6 +85,9 @@ instruction: /* empty */
     | WHILE                     { $1.ic_false = prog.ic(); }
       condition END_OF_LINE     { $1.ic_goto = prog.ic(); prog.ins(JNZ, 0); }
       DO END_OF_LINE main       { prog.ins(JMP, $1.ic_false); prog[$1.ic_goto] = to_string(prog.ic()); }
+      END                       { }
+    | REPEAT calcul END_OF_LINE { }
+      DO END_OF_LINE main       { }
       END                       { }
     | instruction END_OF_LINE   { line++; }
     | instruction SEMI;
