@@ -75,7 +75,7 @@ main: main instruction END_OF_LINE  { line++; }
 
 instruction: /* empty */
     | option
-    | calcul                    { if(prog.get_opt("show_results")) prog.ins(OUT, 0); }
+    | calcul                    { if(prog.get_opt("voir_reulstats")) prog.ins(OUT, 0); }
     | io
     | IDENTIFIER EQUAL calcul   { prog.ins(SET, $1); }
     | IF condition END_OF_LINE  { $1.ic_goto = prog.ic(); prog.ins(JNZ, 0); }

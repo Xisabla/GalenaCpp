@@ -1,9 +1,7 @@
 // Options
-%option debug
-%option show_results
-// TODO: Rename "show_results, write" with french words
-//%option show_results
-%option write true
+%option debug faux
+%option voir_resultats faux
+%option ecrire true
 
 // Simple example with all operations
 -5 * 2 / 4 + 2
@@ -15,9 +13,10 @@
 a = 3 * 6
 saisir b
 
-répéter b
+tant que b < 5
 faire
-    afficher 2
+    b = b + 1
+    afficher b
 fin
 
 afficher b

@@ -10,9 +10,9 @@
 // ─── CONSTRUCTORS ───────────────────────────────────────────────────────────────
 //
 
-Program::Program() : instructions(), nb_instr(0), pile(), opt({{"welcome", true}}), memory(){};
+Program::Program() : instructions(), nb_instr(0), pile(), opt({{"bienvenue", true}}), memory(){};
 
-Program::Program(map<string, bool> opt) : instructions(), nb_instr(0), pile(), opt({{"welcome", true}}), memory(){};
+Program::Program(map<string, bool> opt) : instructions(), nb_instr(0), pile(), opt({{"bienvenue", true}}), memory(){};
 
 //
 // ─── INSTRUCTIONS ───────────────────────────────────────────────────────────────
@@ -171,7 +171,7 @@ bool Program::write(ofstream &fs) const
  */
 void Program::run()
 {
-    if (get_opt("write")) write("output.exec");
+    if (get_opt("ecrire")) write("output.exec");
 
     cout << "================ EXECUTION ===============" << endl;
 
@@ -382,6 +382,9 @@ int Program::exec_inp(int &current_ins, string data)
 
     push(val);
 
+    if (get_opt("debug"))
+        cout << "(debug) push: " << val << endl;
+
     return ++current_ins;
 }
 
@@ -401,7 +404,8 @@ int Program::exec_set(int &current_ins, string data)
     // NOTE: if multiple var type, check the type and don't use pop_d and set_double
     memory.set_double(data, pop_d());
 
-    if (get_opt("debug")) cout << "(debug) " << data << " = " << memory.get_double(data) << endl;
+    if (get_opt("debug"))
+        cout << "(debug) " << data << " = " << memory.get_double(data) << endl;
 
     return ++current_ins;
 }
@@ -418,7 +422,12 @@ int Program::exec_set(int &current_ins, string data)
 int Program::exec_get(int &current_ins, string data)
 {
     // NOTE: if multiple var type, check the type and don't use get_double
-    push(memory.get_double(data));
+    double x = memory.get_double(data);
+
+    push(x);
+
+    if (get_opt("debug"))
+        cout << "(debug) push: " << x << endl;
 
     return ++current_ins;
 }
@@ -618,7 +627,7 @@ void Program::set_opt(string name, bool value)
  */
 ostream &operator<<(ostream &os, Program &prog)
 {
-    if (prog.get_opt("welcome"))
+    if (prog.get_opt("bienvenue"))
     {
 
         os << "┌────────────────────────────────────────┐" << endl;
