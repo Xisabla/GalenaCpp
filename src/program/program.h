@@ -49,8 +49,11 @@ public:
     int exec_sub(int &current_ins, string data);
     int exec_div(int &current_ins, string data);
     int exec_mul(int &current_ins, string data);
+    int exec_inc(int &current_ins, string data);
+    int exec_dec(int &current_ins, string data);
     int exec_num(int &current_ins, string data);
     int exec_out(int &current_ins, string data);
+    int exec_outl(int &current_ins, string data);
     int exec_inp(int &current_ins, string data);
     int exec_set(int &current_ins, string data);
     int exec_get(int &current_ins, string data);
@@ -64,6 +67,9 @@ public:
     int exec_cmpnot(int &current_ins, string data);
     int exec_cmpor(int &current_ins, string data);
     int exec_cmpand(int &current_ins, string data);
+    int exec_forinit(int &current_ins, string data);
+    int exec_fortest(int &current_ins, string data);
+    int exec_forincr(int &current_ins, string data);
 
     // Options
     bool get_opt(string name);
@@ -77,6 +83,7 @@ private:
     int nb_instr;                                   // number of instructions
     vector<pair<Instruction, string>> instructions; // vector of instructions
     vector<string> pile;                            // data pile
+    vector<pair<int, int>> f_pile;                  // for iterators pile
     map<string, bool> opt;                          // options map
     Memory memory;                                  // memory
 
@@ -85,6 +92,10 @@ private:
     void push(string data);
     double pop_d();
     void push(double data);
+
+    // For pile
+    void f_push(int i, int n);
+    pair<int, int> f_pop();
 };
 
 #endif // !GALENACPP_PROGRAM

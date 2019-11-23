@@ -14,8 +14,11 @@ enum Instruction
     SUB,
     DIV,
     MUL,
+    INC,
+    DEC,
     NUM,
     OUT,
+    OUTL,
     INP,
     SET,
     GET,
@@ -29,6 +32,9 @@ enum Instruction
     CMPNOT,
     CMPOR,
     CMPAND,
+    FORINIT,
+    FORTEST,
+    FORINCR,
     NONE
 };
 

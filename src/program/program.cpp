@@ -10,9 +10,9 @@
 // ─── CONSTRUCTORS ───────────────────────────────────────────────────────────────
 //
 
-Program::Program() : instructions(), nb_instr(0), pile(), opt({{"bienvenue", true}}), memory(){};
+Program::Program() : instructions(), nb_instr(0), pile(), f_pile(), opt({{"bienvenue", true}}), memory(){};
 
-Program::Program(map<string, bool> opt) : instructions(), nb_instr(0), pile(), opt({{"bienvenue", true}}), memory(){};
+Program::Program(map<string, bool> opt) : instructions(), nb_instr(0), pile(), f_pile(), opt({{"bienvenue", true}}), memory(){};
 
 //
 // ─── INSTRUCTIONS ───────────────────────────────────────────────────────────────
@@ -190,10 +190,16 @@ void Program::run()
             current_ins = exec_div(current_ins, data);
         else if (ins == MUL)
             current_ins = exec_mul(current_ins, data);
+        else if (ins == INC)
+            current_ins = exec_inc(current_ins, data);
+        else if (ins == DEC)
+            current_ins = exec_dec(current_ins, data);
         else if (ins == NUM)
             current_ins = exec_num(current_ins, data);
         else if (ins == OUT)
             current_ins = exec_out(current_ins, data);
+        else if (ins == OUTL)
+            current_ins = exec_outl(current_ins, data);
         else if (ins == INP)
             current_ins = exec_inp(current_ins, data);
         else if (ins == SET)
@@ -220,6 +226,12 @@ void Program::run()
             current_ins = exec_cmpor(current_ins, data);
         else if (ins == CMPAND)
             current_ins = exec_cmpand(current_ins, data);
+        else if (ins == FORINIT)
+            current_ins = exec_forinit(current_ins, data);
+        else if (ins == FORTEST)
+            current_ins = exec_fortest(current_ins, data);
+        else if (ins == FORINCR)
+            current_ins = exec_forincr(current_ins, data);
         else
             current_ins++;
     }
@@ -328,6 +340,30 @@ int Program::exec_mul(int &current_ins, string data)
 }
 
 /**
+ *  TODO: Comment
+ */
+int Program::exec_inc(int &current_ins, string data)
+{
+    double x = pop_d();
+
+    push(x + 1);
+
+    return ++current_ins;
+}
+
+/**
+ *  TODO: Comment
+ */
+int Program::exec_dec(int &current_ins, string data)
+{
+    double x = pop_d();
+
+    push(x - 1);
+
+    return ++current_ins;
+}
+
+/**
  *  Execute "NUM" instruction
  * 
  *  Push a number into the pile
@@ -349,18 +385,45 @@ int Program::exec_num(int &current_ins, string data)
 /**
  *  Execute "OUT" instruction
  * 
- *  Pop out and show the first element of the pile
+ *  Show a message or the first value of the pile
  * 
  *  @param current_ins The id of the current instruction in the instruction vector
- *  @param data Useless in this case, uniformity
+ *  @param data The message to show, if set to default value, pop a value from the pile
  *  @returns The next instruction id
- * 
- *  NOTE: Data param can be used to set the precision, or some specific options
  */
 int Program::exec_out(int &current_ins, string data)
 {
-    if (data != "0.000000" && data != "") cout << data << " = ";
-    cout << pop() << endl;
+    if (data != "0.000000" && data != "")
+    {
+        cout << data << endl;
+    }
+    else
+    {
+        cout << pop() << endl;
+    }
+
+    return ++current_ins;
+}
+
+/**
+ *  Execute "OUTL" instruction
+ * 
+ *  Same as "exec_out" but don't put a line jump
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data The message to show, if set to default value, pop a value from the pile
+ *  @returns The next instruction id
+ */
+int Program::exec_outl(int &current_ins, string data)
+{
+    if (data != "0.000000" && data != "")
+    {
+        cout << data;
+    }
+    else
+    {
+        cout << pop();
+    }
 
     return ++current_ins;
 }
@@ -377,7 +440,7 @@ int Program::exec_out(int &current_ins, string data)
 int Program::exec_inp(int &current_ins, string data)
 {
     string val;
-    cout << ((data == "" || data == "0") ? "Value" : data) + " = ";
+    cout << ((data == "" || data == "0") ? "Value" : data) + ": ";
     cin >> val;
 
     push(val);
@@ -579,6 +642,53 @@ int Program::exec_cmpand(int &current_ins, string data)
     return ++current_ins;
 }
 
+/**
+ *  TODO: Comment
+ */
+int Program::exec_forinit(int &current_ins, string data)
+{
+    int n = (int)pop_d();
+    int i = (int)pop_d();
+
+    f_push(i, n);
+
+    return ++current_ins;
+}
+
+/**
+ *  TODO: Comment
+ */
+int Program::exec_fortest(int &current_ins, string data)
+{
+    auto f = f_pop();
+
+    if (f.first > f.second)
+    {
+        push(0);
+    }
+    else
+    {
+        f_push(f.first, f.second);
+        push(1);
+    }
+
+    memory.set_double(data, f.first);
+
+    return ++current_ins;
+}
+
+/**
+ *  TODO: Comment
+ */
+int Program::exec_forincr(int &current_ins, string data)
+{
+    auto f = f_pop();
+
+    f_push(f.first + 1, f.second);
+
+    return ++current_ins;
+}
+
 //
 // ─── OPTIONS ────────────────────────────────────────────────────────────────────
 //
@@ -726,6 +836,29 @@ double Program::pop_d()
 void Program::push(double data)
 {
     push(to_string(data));
+}
+
+/**
+ *  TODO: Comment
+ */
+void Program::f_push(int i, int n)
+{
+    f_pile.push_back(make_pair(i, n));
+}
+
+/**
+ *  TODO: Comment
+ */
+pair<int, int> Program::f_pop()
+{
+    if (f_pile.size() == 0)
+        return make_pair(0, 0);
+
+    auto val = f_pile[f_pile.size() - 1];
+
+    f_pile.pop_back();
+
+    return val;
 }
 
 //

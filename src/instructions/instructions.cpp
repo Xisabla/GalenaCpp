@@ -8,8 +8,11 @@ string Instructions::name(Instruction ins)
     case SUB: return "SUB";
     case DIV: return "DIV";
     case MUL: return "MUL";
+    case INC: return "INC";
+    case DEC: return "DEC";
     case NUM: return "NUM";
     case OUT: return "OUT";
+    case OUTL: return "OUTL";
     case INP: return "INP";
     case SET: return "SET";
     case GET: return "GET";
@@ -23,6 +26,9 @@ string Instructions::name(Instruction ins)
     case CMPNOT: return "CMPNOT";
     case CMPOR: return " OR ";
     case CMPAND: return "AND";
+    case FORINIT: return "FORINIT";
+    case FORTEST: return "FORTEST";
+    case FORINCR: return "FORINCR";
     case NONE: return "NONE";
     default: return to_string(ins);
     }
@@ -34,8 +40,11 @@ Instructions::Instruction Instructions::get_ins(string name)
     if (name == "SUB") return SUB;
     if (name == "DIV") return DIV;
     if (name == "MUL") return MUL;
+    if (name == "INC") return INC;
+    if (name == "DEC") return DEC;
     if (name == "NUM") return NUM;
     if (name == "OUT") return OUT;
+    if (name == "OUTL") return OUTL;
     if (name == "INP") return INP;
     if (name == "SET") return SET;
     if (name == "JNZ") return JNZ;
@@ -49,6 +58,8 @@ Instructions::Instruction Instructions::get_ins(string name)
     if (name == "CMPNOT") return CMPNOT;
     if (name == "CMPOR") return CMPOR;
     if (name == "CMPAND") return CMPAND;
-
+    if (name == "FORINIT") return FORINIT;
+    if (name == "FORTEST") return FORTEST;
+    if (name == "FORINCR") return FORINCR;
     return NONE;
 }
