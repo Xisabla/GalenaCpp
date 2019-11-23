@@ -166,8 +166,6 @@ bool Program::write(ofstream &fs) const
  * 
  *  If the instruction does not have any executor, go to the
  *      next instruction
- * 
- *  @todo Put each instruction and its relative executor inside a map
  */
 void Program::run()
 {
@@ -340,7 +338,13 @@ int Program::exec_mul(int &current_ins, string data)
 }
 
 /**
- *  TODO: Comment
+ *  Execute "INC" instruction
+ * 
+ *  Pop out the first value of the pile and re-push it plus one
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case, uniformity
+ *  @returns The next instruction id
  */
 int Program::exec_inc(int &current_ins, string data)
 {
@@ -352,7 +356,13 @@ int Program::exec_inc(int &current_ins, string data)
 }
 
 /**
- *  TODO: Comment
+ *  Execute "DEC" instruction
+ * 
+ *  Pop out the first value of the pile and re-push it less one
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case, uniformity
+ *  @returns The next instruction id
  */
 int Program::exec_dec(int &current_ins, string data)
 {
@@ -532,7 +542,14 @@ int Program::exec_jmp(int &current_ins, string data)
 }
 
 /**
- *  TODO: Comment 
+ *  Execute "CMPEQU" instruction
+ * 
+ *  Pop out the two first values of the pile, and then push the result of the comparaison
+ *      (1 if x = y, 0 otherwise)
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case, uniformity
+ *  @returns The next instruction id
  */
 int Program::exec_cmpequ(int &current_ins, string data)
 {
@@ -546,7 +563,14 @@ int Program::exec_cmpequ(int &current_ins, string data)
 }
 
 /**
- *  TODO: Comment 
+ *  Execute "CMPGTR" instruction
+ * 
+ *  Pop out the two first values of the pile, and then push the result of the comparaison
+ *      (1 if y > x, 0 otherwise)
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case, uniformity
+ *  @returns The next instruction id
  */
 int Program::exec_cmpgtr(int &current_ins, string data)
 {
@@ -560,7 +584,14 @@ int Program::exec_cmpgtr(int &current_ins, string data)
 }
 
 /**
- *  TODO: Comment 
+ *  Execute "CMPGTE" instruction
+ * 
+ *  Pop out the two first values of the pile, and then push the result of the comparaison
+ *      (1 if y >= x, 0 otherwise)
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case, uniformity
+ *  @returns The next instruction id
  */
 int Program::exec_cmpgte(int &current_ins, string data)
 {
@@ -574,7 +605,14 @@ int Program::exec_cmpgte(int &current_ins, string data)
 }
 
 /**
- *  TODO: Comment 
+ *  Execute "CMPLSS" instruction
+ * 
+ *  Pop out the two first values of the pile, and then push the result of the comparaison
+ *      (1 if y < x, 0 otherwise)
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case, uniformity
+ *  @returns The next instruction id
  */
 int Program::exec_cmplss(int &current_ins, string data)
 {
@@ -588,7 +626,14 @@ int Program::exec_cmplss(int &current_ins, string data)
 }
 
 /**
- *  TODO: Comment 
+ *  Execute "CMPLSE" instruction
+ * 
+ *  Pop out the two first values of the pile, and then push the result of the comparaison
+ *      (1 if y <= x, 0 otherwise)
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case, uniformity
+ *  @returns The next instruction id
  */
 int Program::exec_cmplse(int &current_ins, string data)
 {
@@ -602,7 +647,13 @@ int Program::exec_cmplse(int &current_ins, string data)
 }
 
 /**
- *  TODO: Comment 
+ *  Execute "CMPNOT" instruction
+ * 
+ *  Pop out the first value of the pile, and then push it's boolean inverse
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case, uniformity
+ *  @returns The next instruction id
  */
 int Program::exec_cmpnot(int &current_ins, string data)
 {
@@ -615,7 +666,14 @@ int Program::exec_cmpnot(int &current_ins, string data)
 }
 
 /**
- *  TODO: Comment 
+ *  Execute "CMPOR" instruction
+ * 
+ *  Pop out the two first values of the pile, and then push the result of the boolean large
+ *      OR (x || y) operation
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case, uniformity
+ *  @returns The next instruction id
  */
 int Program::exec_cmpor(int &current_ins, string data)
 {
@@ -629,7 +687,14 @@ int Program::exec_cmpor(int &current_ins, string data)
 }
 
 /**
- *  TODO: Comment 
+ *  Execute "CMPAND" instruction
+ * 
+ *  Pop out the two first values of the pile, and then push the result of the boolean large
+ *      AND (x && y) operation
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case, uniformity
+ *  @returns The next instruction id
  */
 int Program::exec_cmpand(int &current_ins, string data)
 {
@@ -643,7 +708,13 @@ int Program::exec_cmpand(int &current_ins, string data)
 }
 
 /**
- *  TODO: Comment
+ *  Execute "FORINIT" instruction
+ * 
+ *  Pop out the two first values of the pile, and then push them in the for pile
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case, uniformity
+ *  @returns The next instruction id
  */
 int Program::exec_forinit(int &current_ins, string data)
 {
@@ -656,7 +727,14 @@ int Program::exec_forinit(int &current_ins, string data)
 }
 
 /**
- *  TODO: Comment
+ *  Execute "FORTEST" instruction
+ * 
+ *  Pop out the first value of the for pile, check if i is greater then n and then
+ *      push the result of the comparaison in the pile
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case, uniformity
+ *  @returns The next instruction id
  */
 int Program::exec_fortest(int &current_ins, string data)
 {
@@ -678,7 +756,13 @@ int Program::exec_fortest(int &current_ins, string data)
 }
 
 /**
- *  TODO: Comment
+ *  Execute "FORINCR" instruction
+ * 
+ *  Pop out the first value of the for pile, add 1 to i and then push it back
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case, uniformity
+ *  @returns The next instruction id
  */
 int Program::exec_forincr(int &current_ins, string data)
 {
@@ -839,7 +923,10 @@ void Program::push(double data)
 }
 
 /**
- *  TODO: Comment
+ *  Push values inside the for pile
+ * 
+ *  @param i The iterator of the for
+ *  @param n The max value of the for
  */
 void Program::f_push(int i, int n)
 {
@@ -847,7 +934,9 @@ void Program::f_push(int i, int n)
 }
 
 /**
- *  TODO: Comment
+ *  Pop out the first pair of the for pile
+ * 
+ *  @returns The iterator and the max value
  */
 pair<int, int> Program::f_pop()
 {
