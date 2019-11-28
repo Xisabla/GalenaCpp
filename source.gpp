@@ -1,19 +1,20 @@
 %option ecrire
+%option ass
 
-saisir n
+modulo: a, b
 
-afficherl "n = "; afficher n
+    m = 0
 
-répéter i = 0:n
-faire
-    afficherl "i="
-
-    afficherl i
-    répéter j = 1:3
+    tant que a > b
     faire
-        afficherl "; j="
-        afficherl j
+        a = a - b
+        m++
     fin
 
-    afficher " "
-fin
+    afficher m
+
+    retourner a
+
+saisir a
+saisir b
+afficher appeler modulo a, b

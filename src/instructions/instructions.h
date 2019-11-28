@@ -24,6 +24,8 @@ enum Instruction
     GET,
     JMP,
     JNZ,
+    CLL,
+    RTR,
     CMPEQU,
     CMPGTR,
     CMPGTE,

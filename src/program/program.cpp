@@ -10,9 +10,9 @@
 // ─── CONSTRUCTORS ───────────────────────────────────────────────────────────────
 //
 
-Program::Program() : instructions(), nb_instr(0), pile(), f_pile(), opt({{"bienvenue", true}}), memory(){};
+Program::Program() : instructions(), nb_instr(0), pile(), f_pile(), c_pile(), routines(), opt({{"bienvenue", true}}), memory(){};
 
-Program::Program(map<string, bool> opt) : instructions(), nb_instr(0), pile(), f_pile(), opt({{"bienvenue", true}}), memory(){};
+Program::Program(map<string, bool> opt) : instructions(), nb_instr(0), pile(), f_pile(), c_pile(), routines(), opt({{"bienvenue", true}}), memory(){};
 
 //
 // ─── INSTRUCTIONS ───────────────────────────────────────────────────────────────
@@ -68,6 +68,16 @@ int Program::ins(Instruction ins, string data)
 string &Program::operator[](int idx)
 {
     return instructions[idx].second;
+}
+
+// ────────────────────────────────────────────────────────────────────────────────
+
+//
+// ─── ROUTINES ───────────────────────────────────────────────────────────────────
+//
+
+void Program::set_routine(string name, int index, int nb_args) {
+    routines[name] = make_pair(index, nb_args);
 }
 
 // ────────────────────────────────────────────────────────────────────────────────
@@ -208,6 +218,25 @@ void Program::run()
             current_ins = exec_jnz(current_ins, data);
         else if (ins == JMP)
             current_ins = exec_jmp(current_ins, data);
+        else if(ins == CLL) {
+            if(routines.find(data) != routines.end()) {
+                c_pile.push_back(current_ins + 1);
+                auto r = routines[data];
+
+                if(pile.size() >= r.second) {
+                    reverse(pile.end() - r.second, pile.end());
+                    current_ins = r.first;
+                } else {
+                    cout << "Not enough arguments, skipped" << endl;
+                    current_ins++;
+                }
+            } else {
+                current_ins++;
+            }
+        }
+        else if(ins == RTR) {
+            current_ins = pop_c();
+        }
         else if (ins == CMPEQU)
             current_ins = exec_cmpequ(current_ins, data);
         else if (ins == CMPGTR)
@@ -948,6 +977,17 @@ pair<int, int> Program::f_pop()
     f_pile.pop_back();
 
     return val;
+}
+
+// TODO: Comment
+int Program::pop_c()
+{
+    auto val = c_pile[c_pile.size() - 1];
+
+    c_pile.pop_back();
+
+    return val;
+    //return atof(pop().c_str());
 }
 
 //

@@ -8,6 +8,7 @@
 
 %%
 
+","                             { return COMMA; }
 "="                             { return EQUAL; }
 "("                             { return LBRACKET; }
 ")"                             { return RBRACKET; }
@@ -39,6 +40,8 @@
 "tant que"|"TANT QUE"|"Tant Que"    { return WHILE; }
 "faire"|"FAIRE"|"Faire"         { return DO; }
 "répéter"|"REPETER"|"Répéter"   { return REPEAT; }
+"retourner"|"RETOURNER"|"Retourner" { return RETURN; }
+"appeler"|"APPELER"|"Appeler"   { return CALL; }
 ([0-9]+(\.[0-9]*)?)|(\.[0-9])   { yylval.number = atof(yytext); return NUMBER; }
 [A-Za-z_][0-9A-Za-z_]*          { yylval.name = strdup(yytext); return IDENTIFIER; }
 [\"].*[\"]                      { yylval.name = trim(strdup(yytext), '"'); return STRING; }

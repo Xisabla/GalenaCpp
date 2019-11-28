@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 
+#include <algorithm>
 #include <map>
 #include <string>
 #include <vector>
@@ -34,6 +35,9 @@ public:
     int ins(Instruction instr, double data);
     int ins(Instruction instr, string data);
     string &operator[](int idx);
+
+    // Routines
+    void set_routine(string name, int index, int nb_args);
 
     // I/O Files
     bool read(string filename);
@@ -84,7 +88,9 @@ private:
     vector<pair<Instruction, string>> instructions; // vector of instructions
     vector<string> pile;                            // data pile
     vector<pair<int, int>> f_pile;                  // for iterators pile
+    vector<int> c_pile;                             // call stack
     map<string, bool> opt;                          // options map
+    map<string, pair<int, int>> routines;           // routines map, containing index and arg count
     Memory memory;                                  // memory
 
     // Pile
@@ -96,6 +102,9 @@ private:
     // For pile
     void f_push(int i, int n);
     pair<int, int> f_pop();
+
+    // Call Stack
+    int pop_c();
 };
 
 #endif // !GALENACPP_PROGRAM

@@ -1,4 +1,6 @@
 %{
+    #define YYERROR_VERBOSE
+
     #include <iostream>
     #include <iomanip>
     #include <map>
@@ -17,6 +19,8 @@
     Program prog;
     bool err = false;
     static int line = 1;
+
+    static int nb_args = 0;
 
 %}
 
@@ -38,6 +42,8 @@
 %token OUTPUT
 %token OUTPUTL
 %token INPUT
+%token RETURN
+%token CALL
 
 // Block/Loop tokens
 %token <targeter> IF
@@ -62,7 +68,8 @@
 %token EQUAL
 %token LBRACKET
 %token RBRACKET
-%token COLON
+%token COMMA
+%token <targeter> COLON
 %token END_OF_LINE
 %token SEMI
 
@@ -111,10 +118,35 @@ instruction: /* empty */
           prog.ins(FORINCR, 0);
           prog.ins(JMP, $1.ic_goto);
           prog[$1.ic_false] = to_string(prog.ic()); }
-      END                       { }
-    /*| FONCTION IDENTIFIER END_OF_LINE   { }
-      main                              { }
-      END                               { }*/
+      END 
+    | IDENTIFIER COLON {
+        $2.ic_goto = prog.ic();
+        prog.ins(JMP, 0); }
+      args END_OF_LINE              { prog.set_routine($1, $2.ic_goto + 1, nb_args); }
+      main                          { }
+      return                        { prog[$2.ic_goto] = to_string(prog.ic()); }
+    | call                          { }
+    ;
+
+args:
+    args COMMA IDENTIFIER { prog.ins(SET, $3); nb_args++; }
+    | IDENTIFIER          { prog.ins(SET, $1); nb_args = 1; }
+    | { nb_args = 0; }
+    ;
+
+call:
+    CALL IDENTIFIER                 { prog.ins(CLL, $2); }
+    | CALL IDENTIFIER call_args     { prog.ins(CLL, $2); }
+    ;
+
+call_args:
+    | calcul            { }
+    | calcul COMMA call_args  { }
+    ;
+
+return:
+    RETURN          { prog.ins(RTR, "0"); }
+    | RETURN calcul   { prog.ins(RTR, "0"); }
     ;
 
 condition:
@@ -146,6 +178,7 @@ calcul:
     | NUMBER                    { prog.ins(NUM, $1); }
     | IDENTIFIER INCREMENT      { prog.ins(GET, $1); prog.ins(INC, 0); prog.ins(SET, $1); prog.ins(GET, $1); }
     | IDENTIFIER                { prog.ins(GET, $1); }
+    | call                      {}
     ;
 
 io:

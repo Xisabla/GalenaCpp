@@ -18,6 +18,8 @@ string Instructions::name(Instruction ins)
     case GET: return "GET";
     case JNZ: return "JNZ";
     case JMP: return "JMP";
+    case CLL: return "CLL";
+    case RTR: return "RTR";
     case CMPEQU: return "CMPEQU";
     case CMPGTR: return "CMPGTR";
     case CMPGTE: return "CMPGTE";
@@ -47,9 +49,11 @@ Instructions::Instruction Instructions::get_ins(string name)
     if (name == "OUTL") return OUTL;
     if (name == "INP") return INP;
     if (name == "SET") return SET;
+    if (name == "GET") return GET;
     if (name == "JNZ") return JNZ;
     if (name == "JMP") return JMP;
-    if (name == "GET") return GET;
+    if (name == "CLL") return CLL;
+    if (name == "RTR") return RTR;
     if (name == "CMPEQU") return CMPEQU;
     if (name == "CMPGTR") return CMPGTR;
     if (name == "CMPGTE") return CMPGTE;
