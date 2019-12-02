@@ -63,6 +63,8 @@ public:
     int exec_get(int &current_ins, string data);
     int exec_jnz(int &current_ins, string data);
     int exec_jmp(int &current_ins, string data);
+    int exec_cll(int &current_ins, string data);
+    int exec_rtr(int &current_ins, string data);
     int exec_cmpequ(int &current_ins, string data);
     int exec_cmpgtr(int &current_ins, string data);
     int exec_cmpgte(int &current_ins, string data);

@@ -218,25 +218,10 @@ void Program::run()
             current_ins = exec_jnz(current_ins, data);
         else if (ins == JMP)
             current_ins = exec_jmp(current_ins, data);
-        else if(ins == CLL) {
-            if(routines.find(data) != routines.end()) {
-                c_pile.push_back(current_ins + 1);
-                auto r = routines[data];
-
-                if(pile.size() >= r.second) {
-                    reverse(pile.end() - r.second, pile.end());
-                    current_ins = r.first;
-                } else {
-                    cout << "Not enough arguments, skipped" << endl;
-                    current_ins++;
-                }
-            } else {
-                current_ins++;
-            }
-        }
-        else if(ins == RTR) {
-            current_ins = pop_c();
-        }
+        else if(ins == CLL) 
+            current_ins = exec_cll(current_ins, data);
+        else if(ins == RTR) 
+            current_ins = exec_rtr(current_ins, data);
         else if (ins == CMPEQU)
             current_ins = exec_cmpequ(current_ins, data);
         else if (ins == CMPGTR)
@@ -568,6 +553,34 @@ int Program::exec_jmp(int &current_ins, string data)
     current_ins = atoi(data.c_str());
 
     return current_ins;
+}
+
+// TODO: Comment
+int Program::exec_cll(int &current_ins, string data) {
+    if (routines.find(data) != routines.end())
+    {
+        c_pile.push_back(current_ins + 1);
+        auto r = routines[data];
+
+        if (pile.size() >= r.second)
+        {
+            reverse(pile.end() - r.second, pile.end());
+
+            return r.first;
+        }
+        else
+        {
+            cout << "Not enough arguments, skipped" << endl;
+            return ++current_ins;
+        }
+    }
+    
+    return ++current_ins;
+}
+
+// TODO: Comment
+int Program::exec_rtr(int &current_ins, string data) {
+    return current_ins = pop_c();
 }
 
 /**
