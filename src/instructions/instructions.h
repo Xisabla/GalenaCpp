@@ -26,6 +26,7 @@ enum Instruction
     JNZ,
     CLL,
     RTR,
+    PLT,
     CEQ,
     CGR,
     CGE,

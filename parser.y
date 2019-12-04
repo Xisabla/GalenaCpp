@@ -40,6 +40,7 @@
 %token INPUT
 %token RETURN
 %token CALL
+%token PLOT
 
 // Block/Loop tokens
 %token <targeter> IF
@@ -122,6 +123,7 @@ instruction: /* empty */
       main                              { }
       return                            { prog[$2.ic_goto] = to_string(prog.ic()); }
     | call                              { }
+    | PLOT IDENTIFIER                   { prog.ins(PLT, $2); }
     ;
 
 args:

@@ -1,20 +1,7 @@
 %option ecrire
 %option ass
 
-modulo: a, b
+mult: x
+    retourner x*2
 
-    m = 0
-
-    tant que a > b
-    faire
-        a = a - b
-        m++
-    fin
-
-    afficher m
-
-    retourner a
-
-saisir a
-saisir b
-afficher appeler modulo a, b
+dessiner mult

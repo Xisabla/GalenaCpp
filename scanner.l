@@ -41,6 +41,7 @@
 "faire"|"FAIRE"|"Faire"         { return DO; }
 "répéter"|"REPETER"|"Répéter"   { return REPEAT; }
 "retourner"|"RETOURNER"|"Retourner" { return RETURN; }
+"dessiner"|"DESSINER"|"Dessiner"    { return PLOT;}
 "appeler"|"APPELER"|"Appeler"   { return CALL; }
 ([0-9]+(\.[0-9]*)?)|(\.[0-9])   { yylval.number = atof(yytext); return NUMBER; }
 [A-Za-z_][0-9A-Za-z_]*          { yylval.name = strdup(yytext); return IDENTIFIER; }

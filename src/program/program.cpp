@@ -189,66 +189,72 @@ void Program::run()
     {
         Instruction ins = instructions[current_ins].first;
         string data     = instructions[current_ins].second;
-
-        if (ins == ADD)
-            current_ins = exec_add(current_ins, data);
-        else if (ins == SUB)
-            current_ins = exec_sub(current_ins, data);
-        else if (ins == DIV)
-            current_ins = exec_div(current_ins, data);
-        else if (ins == MUL)
-            current_ins = exec_mul(current_ins, data);
-        else if (ins == INC)
-            current_ins = exec_inc(current_ins, data);
-        else if (ins == DEC)
-            current_ins = exec_dec(current_ins, data);
-        else if (ins == NUM)
-            current_ins = exec_num(current_ins, data);
-        else if (ins == OUT)
-            current_ins = exec_out(current_ins, data);
-        else if (ins == OUL)
-            current_ins = exec_oul(current_ins, data);
-        else if (ins == INP)
-            current_ins = exec_inp(current_ins, data);
-        else if (ins == SET)
-            current_ins = exec_set(current_ins, data);
-        else if (ins == GET)
-            current_ins = exec_get(current_ins, data);
-        else if (ins == JNZ)
-            current_ins = exec_jnz(current_ins, data);
-        else if (ins == JMP)
-            current_ins = exec_jmp(current_ins, data);
-        else if(ins == CLL) 
-            current_ins = exec_cll(current_ins, data);
-        else if(ins == RTR) 
-            current_ins = exec_rtr(current_ins, data);
-        else if (ins == CEQ)
-            current_ins = exec_ceq(current_ins, data);
-        else if (ins == CGR)
-            current_ins = exec_cgr(current_ins, data);
-        else if (ins == CGE)
-            current_ins = exec_cge(current_ins, data);
-        else if (ins == CLS)
-            current_ins = exec_cls(current_ins, data);
-        else if (ins == CLE)
-            current_ins = exec_cle(current_ins, data);
-        else if (ins == CNT)
-            current_ins = exec_cnt(current_ins, data);
-        else if (ins == COR)
-            current_ins = exec_cor(current_ins, data);
-        else if (ins == CND)
-            current_ins = exec_cnd(current_ins, data);
-        else if (ins == RNT)
-            current_ins = exec_rnt(current_ins, data);
-        else if (ins == RCP)
-            current_ins = exec_rcp(current_ins, data);
-        else if (ins == RIC)
-            current_ins = exec_ric(current_ins, data);
-        else
-            current_ins++;
+        current_ins = exec(ins, current_ins, data);
     }
-
     cout << "==========================================" << endl;
+}
+
+int Program::exec(Instruction ins, int& current_ins, string data)
+{
+    if (ins == ADD)
+        current_ins = exec_add(current_ins, data);
+    else if (ins == SUB)
+        current_ins = exec_sub(current_ins, data);
+    else if (ins == DIV)
+        current_ins = exec_div(current_ins, data);
+    else if (ins == MUL)
+        current_ins = exec_mul(current_ins, data);
+    else if (ins == INC)
+        current_ins = exec_inc(current_ins, data);
+    else if (ins == DEC)
+        current_ins = exec_dec(current_ins, data);
+    else if (ins == NUM)
+        current_ins = exec_num(current_ins, data);
+    else if (ins == OUT)
+        current_ins = exec_out(current_ins, data);
+    else if (ins == OUL)
+        current_ins = exec_oul(current_ins, data);
+    else if (ins == INP)
+        current_ins = exec_inp(current_ins, data);
+    else if (ins == SET)
+        current_ins = exec_set(current_ins, data);
+    else if (ins == GET)
+        current_ins = exec_get(current_ins, data);
+    else if (ins == JNZ)
+        current_ins = exec_jnz(current_ins, data);
+    else if (ins == JMP)
+        current_ins = exec_jmp(current_ins, data);
+    else if(ins == CLL) 
+        current_ins = exec_cll(current_ins, data);
+    else if(ins == RTR) 
+        current_ins = exec_rtr(current_ins, data);
+    else if(ins == PLT) 
+        current_ins = exec_plt(current_ins, data);
+    else if (ins == CEQ)
+        current_ins = exec_ceq(current_ins, data);
+    else if (ins == CGR)
+        current_ins = exec_cgr(current_ins, data);
+    else if (ins == CGE)
+        current_ins = exec_cge(current_ins, data);
+    else if (ins == CLS)
+        current_ins = exec_cls(current_ins, data);
+    else if (ins == CLE)
+        current_ins = exec_cle(current_ins, data);
+    else if (ins == CNT)
+        current_ins = exec_cnt(current_ins, data);
+    else if (ins == COR)
+        current_ins = exec_cor(current_ins, data);
+    else if (ins == CND)
+        current_ins = exec_cnd(current_ins, data);
+    else if (ins == RNT)
+        current_ins = exec_rnt(current_ins, data);
+    else if (ins == RCP)
+        current_ins = exec_rcp(current_ins, data);
+    else if (ins == RIC)
+        current_ins = exec_ric(current_ins, data);
+    else
+        current_ins++;
+    return current_ins;
 }
 
 //
@@ -581,6 +587,50 @@ int Program::exec_cll(int &current_ins, string data) {
 // TODO: Comment
 int Program::exec_rtr(int &current_ins, string data) {
     return current_ins = pop_c();
+}
+
+// TODO: Comment
+
+int Program::exec_plt(int &current_ins, string data) {
+    if (routines.find(data) == routines.end())
+    {
+        cout << "Routine is not defined." << endl;
+        return ++current_ins;
+    }
+    if (routines[data].second != 1)
+    {
+        cout << "Routine must take exactly one parameter." << endl;
+        return ++current_ins;
+    }
+
+    // cout << Instructions::name(instructions[routines[data].first].first) << endl;
+    vector<pair<double, double>> newPlot;
+
+    // for begin
+    for(double x = -10; x <= 10; x += 0.1) {
+        push(x);
+
+        int line = 0;
+        line = exec_cll(line, data);
+        Instruction instr;
+
+        int s = c_pile.size();
+
+        do {        
+            auto current = instructions[line];
+            instr = current.first;
+            string instr_data = current.second;
+
+            line = exec(instr, line, instr_data);  
+        } while(instr != RTR);
+
+        double y = pop_d();
+        newPlot.push_back(make_pair(x, y));
+    }
+
+    plot_points(newPlot);
+
+    return ++current_ins;
 }
 
 /**

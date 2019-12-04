@@ -20,6 +20,7 @@ string Instructions::name(Instruction ins)
     case JMP: return "JMP";
     case CLL: return "CLL";
     case RTR: return "RTR";
+    case PLT: return "PLT";
     case CEQ: return "CEQ";
     case CGR: return "CGR";
     case CGE: return "CGE";
@@ -54,6 +55,7 @@ Instructions::Instruction Instructions::get_ins(string name)
     if (name == "JMP") return JMP;
     if (name == "CLL") return CLL;
     if (name == "RTR") return RTR;
+    if (name == "PLT") return PLT;
     if (name == "CEQ") return CEQ;
     if (name == "CGR") return CGR;
     if (name == "CGE") return CGE;

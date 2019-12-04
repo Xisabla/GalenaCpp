@@ -13,6 +13,7 @@
 
 #include "../instructions/instructions.h"
 #include "../memory/memory.h"
+#include "../plot/plot.h"
 
 using namespace Instructions;
 using namespace std;
@@ -47,6 +48,7 @@ public:
 
     // Runner
     void run();
+    int exec(Instruction ins, int &current_ins, string data);
 
     // Executors
     int exec_add(int &current_ins, string data);
@@ -65,6 +67,7 @@ public:
     int exec_jmp(int &current_ins, string data);
     int exec_cll(int &current_ins, string data);
     int exec_rtr(int &current_ins, string data);
+    int exec_plt(int &current_ins, string data);
     int exec_ceq(int &current_ins, string data);
     int exec_cgr(int &current_ins, string data);
     int exec_cge(int &current_ins, string data);
