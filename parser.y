@@ -84,107 +84,107 @@ main: main instruction END_OF_LINE  { line++; }
 
 instruction: /* empty */
     | option
-    | calcul                    { if(prog.get_opt("voir_reulstats")) prog.ins(OUT, 0); }
+    | calcul                            { if(prog.get_opt("voir_reulstats")) prog.ins(OUT, 0); }
     | io
-    | IDENTIFIER EQUAL calcul   { prog.ins(SET, $1); }
-    | IF condition END_OF_LINE  {
-        $1.ic_goto = prog.ic();
-        prog.ins(JNZ, 0); }
-      THEN END_OF_LINE main     {
-          $1.ic_false = prog.ic();
-          prog.ins(JMP, 0);
-          prog[$1.ic_goto] = to_string(prog.ic()); }
-      ELSE END_OF_LINE main     { prog[$1.ic_false] = to_string(prog.ic()); }
-      END                       { }
-    | WHILE                     { $1.ic_false = prog.ic(); }
-      condition END_OF_LINE     {
-          $1.ic_goto = prog.ic();
-          prog.ins(JNZ, 0); }
-      DO END_OF_LINE main       {
-          prog.ins(JMP, $1.ic_false);
-          prog[$1.ic_goto] = to_string(prog.ic()); }
-      END                       { }
+    | IDENTIFIER EQUAL calcul           { prog.ins(SET, $1); }
+    | IF condition END_OF_LINE          {
+                                            $1.ic_goto = prog.ic();
+                                            prog.ins(JNZ, 0); }
+      THEN END_OF_LINE main             {
+                                            $1.ic_false = prog.ic();
+                                            prog.ins(JMP, 0);
+                                            prog[$1.ic_goto] = to_string(prog.ic()); }
+      ELSE END_OF_LINE main             { prog[$1.ic_false] = to_string(prog.ic()); }
+      END                               { }
+    | WHILE                             { $1.ic_false = prog.ic(); }
+      condition END_OF_LINE             {
+                                            $1.ic_goto = prog.ic();
+                                            prog.ins(JNZ, 0); }
+      DO END_OF_LINE main               {
+                                            prog.ins(JMP, $1.ic_false);
+                                            prog[$1.ic_goto] = to_string(prog.ic()); }
+      END                               { }
     | REPEAT IDENTIFIER EQUAL calcul COLON calcul END_OF_LINE {
-        prog.ins(FORINIT, 0);
-        $1.ic_goto = prog.ic();
-        prog.ins(FORTEST, $2);
-        $1.ic_false = prog.ic();
-        prog.ins(JNZ, 0); }
-      DO END_OF_LINE main       { 
-          prog.ins(FORINCR, 0);
-          prog.ins(JMP, $1.ic_goto);
-          prog[$1.ic_false] = to_string(prog.ic()); }
+                                            prog.ins(RNT, 0);
+                                            $1.ic_goto = prog.ic();
+                                            prog.ins(RCP, $2);
+                                            $1.ic_false = prog.ic();
+                                            prog.ins(JNZ, 0); }
+      DO END_OF_LINE main               { 
+                                            prog.ins(RIC, 0);
+                                            prog.ins(JMP, $1.ic_goto);
+                                            prog[$1.ic_false] = to_string(prog.ic()); }
       END 
-    | IDENTIFIER COLON {
-        $2.ic_goto = prog.ic();
-        prog.ins(JMP, 0); }
-      args END_OF_LINE              { prog.set_routine($1, $2.ic_goto + 1, nb_args); }
-      main                          { }
-      return                        { prog[$2.ic_goto] = to_string(prog.ic()); }
-    | call                          { }
+    | IDENTIFIER COLON                  {
+                                            $2.ic_goto = prog.ic();
+                                            prog.ins(JMP, 0); }
+      args END_OF_LINE                  { prog.set_routine($1, $2.ic_goto + 1, nb_args); }
+      main                              { }
+      return                            { prog[$2.ic_goto] = to_string(prog.ic()); }
+    | call                              { }
     ;
 
 args:
-    args COMMA IDENTIFIER { prog.ins(SET, $3); nb_args++; }
-    | IDENTIFIER          { prog.ins(SET, $1); nb_args = 1; }
-    | { nb_args = 0; }
+    args COMMA IDENTIFIER               { prog.ins(SET, $3); nb_args++; }
+    | IDENTIFIER                        { prog.ins(SET, $1); nb_args = 1; }
+    |                                   { nb_args = 0; }
     ;
 
 call:
-    CALL IDENTIFIER                 { prog.ins(CLL, $2); }
-    | CALL IDENTIFIER call_args     { prog.ins(CLL, $2); }
+    CALL IDENTIFIER                     { prog.ins(CLL, $2); }
+    | CALL IDENTIFIER call_args         { prog.ins(CLL, $2); }
     ;
 
 call_args:
-    | calcul            { }
-    | calcul COMMA call_args  { }
+    | calcul                            { }
+    | calcul COMMA call_args            { }
     ;
 
 return:
-    RETURN          { prog.ins(RTR, "0"); }
-    | RETURN calcul   { prog.ins(RTR, "0"); }
+    RETURN                              { prog.ins(RTR, 0); }
+    | RETURN calcul                     { prog.ins(RTR, 0); }
     ;
 
 condition:
     calcul                              { }
-    | NOT condition                     { prog.ins(CMPNOT, 0); }
-    | calcul IS_EQUAL calcul            { prog.ins(CMPEQU, 0); }
-    | calcul IS_GREATER calcul          { prog.ins(CMPGTR, 0); }
-    | calcul IS_GREATER_EQUAL calcul    { prog.ins(CMPGTE, 0); }
-    | calcul IS_LESS calcul             { prog.ins(CMPLSS, 0); }
-    | calcul IS_LESS_EQUAL calcul       { prog.ins(CMPLSE, 0); }
-    | condition OR condition            { prog.ins(CMPOR, 0); }
-    | condition AND condition           { prog.ins(CMPAND, 0); }
+    | NOT condition                     { prog.ins(CNT, 0); }
+    | calcul IS_EQUAL calcul            { prog.ins(CEQ, 0); }
+    | calcul IS_GREATER calcul          { prog.ins(CGR, 0); }
+    | calcul IS_GREATER_EQUAL calcul    { prog.ins(CGE, 0); }
+    | calcul IS_LESS calcul             { prog.ins(CLS, 0); }
+    | calcul IS_LESS_EQUAL calcul       { prog.ins(CLE, 0); }
+    | condition OR condition            { prog.ins(COR, 0); }
+    | condition AND condition           { prog.ins(CND, 0); }
     ;
 
 option: 
-    OPTION IDENTIFIER           { prog.set_opt($2); }
-    | OPTION IDENTIFIER BOOL    { prog.set_opt($2, $3); }
+    OPTION IDENTIFIER                   { prog.set_opt($2); }
+    | OPTION IDENTIFIER BOOL            { prog.set_opt($2, $3); }
     ;
 
 calcul:
-    calcul PLUS calcul          { prog.ins(ADD, 0); }
-    | calcul MINUS calcul       { prog.ins(SUB, 0); }
-    | calcul TIMES calcul       { prog.ins(MUL, 0); }
-    | calcul DIVIDE calcul      { prog.ins(DIV, 0); }
-    | calcul INCREMENT          { prog.ins(INC, 0); }
-    | calcul DECREMENT          { prog.ins(DEC, 0); }
-    | LBRACKET calcul RBRACKET  { }
-    | MINUS NUMBER              { prog.ins(NUM, -$2); }
-    | NUMBER                    { prog.ins(NUM, $1); }
-    | IDENTIFIER INCREMENT      { prog.ins(GET, $1); prog.ins(INC, 0); prog.ins(SET, $1); prog.ins(GET, $1); }
-    | IDENTIFIER                { prog.ins(GET, $1); }
-    | call                      {}
+    calcul PLUS calcul                  { prog.ins(ADD, 0); }
+    | calcul MINUS calcul               { prog.ins(SUB, 0); }
+    | calcul TIMES calcul               { prog.ins(MUL, 0); }
+    | calcul DIVIDE calcul              { prog.ins(DIV, 0); }
+    | calcul INCREMENT                  { prog.ins(INC, 0); }
+    | calcul DECREMENT                  { prog.ins(DEC, 0); }
+    | LBRACKET calcul RBRACKET          { }
+    | MINUS NUMBER                      { prog.ins(NUM, -$2); }
+    | NUMBER                            { prog.ins(NUM, $1); }
+    | IDENTIFIER INCREMENT              { prog.ins(GET, $1);prog.ins(INC, 0); prog.ins(SET, $1); prog.ins(GET, $1); }
+    | IDENTIFIER                        { prog.ins(GET, $1); }
+    | call                              { }
     ;
 
 io:
-    INPUT IDENTIFIER            { prog.ins(INP, $2); prog.ins(SET, $2); }
-    | OUTPUTL condition         { prog.ins(OUTL, 0); }   
-    | OUTPUTL calcul            { prog.ins(OUTL, 0); }
-    | OUTPUTL STRING            { prog.ins(OUTL, $2); }
-    | OUTPUT condition          { prog.ins(OUT, 0); }   
-    | OUTPUT calcul             { prog.ins(OUT, 0); }
-    | OUTPUT STRING             { prog.ins(OUT, $2); }
+    INPUT IDENTIFIER                    { prog.ins(INP, $2); prog.ins(SET, $2); }
+    | OUTPUTL condition                 { prog.ins(OUL, 0); }   
+    | OUTPUTL calcul                    { prog.ins(OUL, 0); }
+    | OUTPUTL STRING                    { prog.ins(OUL, $2); }
+    | OUTPUT condition                  { prog.ins(OUT, 0); }   
+    | OUTPUT calcul                     { prog.ins(OUT, 0); }
+    | OUTPUT STRING                     { prog.ins(OUT, $2); }
     ;
 %%
 

@@ -57,7 +57,7 @@ public:
     int exec_dec(int &current_ins, string data);
     int exec_num(int &current_ins, string data);
     int exec_out(int &current_ins, string data);
-    int exec_outl(int &current_ins, string data);
+    int exec_oul(int &current_ins, string data);
     int exec_inp(int &current_ins, string data);
     int exec_set(int &current_ins, string data);
     int exec_get(int &current_ins, string data);
@@ -65,17 +65,17 @@ public:
     int exec_jmp(int &current_ins, string data);
     int exec_cll(int &current_ins, string data);
     int exec_rtr(int &current_ins, string data);
-    int exec_cmpequ(int &current_ins, string data);
-    int exec_cmpgtr(int &current_ins, string data);
-    int exec_cmpgte(int &current_ins, string data);
-    int exec_cmplss(int &current_ins, string data);
-    int exec_cmplse(int &current_ins, string data);
-    int exec_cmpnot(int &current_ins, string data);
-    int exec_cmpor(int &current_ins, string data);
-    int exec_cmpand(int &current_ins, string data);
-    int exec_forinit(int &current_ins, string data);
-    int exec_fortest(int &current_ins, string data);
-    int exec_forincr(int &current_ins, string data);
+    int exec_ceq(int &current_ins, string data);
+    int exec_cgr(int &current_ins, string data);
+    int exec_cge(int &current_ins, string data);
+    int exec_cls(int &current_ins, string data);
+    int exec_cle(int &current_ins, string data);
+    int exec_cnt(int &current_ins, string data);
+    int exec_cor(int &current_ins, string data);
+    int exec_cnd(int &current_ins, string data);
+    int exec_rnt(int &current_ins, string data);
+    int exec_rcp(int &current_ins, string data);
+    int exec_ric(int &current_ins, string data);
 
     // Options
     bool get_opt(string name);

@@ -12,7 +12,7 @@ string Instructions::name(Instruction ins)
     case DEC: return "DEC";
     case NUM: return "NUM";
     case OUT: return "OUT";
-    case OUTL: return "OUTL";
+    case OUL: return "OUL";
     case INP: return "INP";
     case SET: return "SET";
     case GET: return "GET";
@@ -20,18 +20,18 @@ string Instructions::name(Instruction ins)
     case JMP: return "JMP";
     case CLL: return "CLL";
     case RTR: return "RTR";
-    case CMPEQU: return "CMPEQU";
-    case CMPGTR: return "CMPGTR";
-    case CMPGTE: return "CMPGTE";
-    case CMPLSS: return "CMPLSS";
-    case CMPLSE: return "CMPLSE";
-    case CMPNOT: return "CMPNOT";
-    case CMPOR: return " OR ";
-    case CMPAND: return "AND";
-    case FORINIT: return "FORINIT";
-    case FORTEST: return "FORTEST";
-    case FORINCR: return "FORINCR";
-    case NONE: return "NONE";
+    case CEQ: return "CEQ";
+    case CGR: return "CGR";
+    case CGE: return "CGE";
+    case CLS: return "CLS";
+    case CLE: return "CLE";
+    case CNT: return "CNT";
+    case COR: return "COR";
+    case CND: return "CND";
+    case RNT: return "RNT";
+    case RCP: return "RCP";
+    case RIC: return "RIP";
+    case NOP: return "NOP";
     default: return to_string(ins);
     }
 }
@@ -46,7 +46,7 @@ Instructions::Instruction Instructions::get_ins(string name)
     if (name == "DEC") return DEC;
     if (name == "NUM") return NUM;
     if (name == "OUT") return OUT;
-    if (name == "OUTL") return OUTL;
+    if (name == "OUL") return OUL;
     if (name == "INP") return INP;
     if (name == "SET") return SET;
     if (name == "GET") return GET;
@@ -54,16 +54,16 @@ Instructions::Instruction Instructions::get_ins(string name)
     if (name == "JMP") return JMP;
     if (name == "CLL") return CLL;
     if (name == "RTR") return RTR;
-    if (name == "CMPEQU") return CMPEQU;
-    if (name == "CMPGTR") return CMPGTR;
-    if (name == "CMPGTE") return CMPGTE;
-    if (name == "CMPLSS") return CMPLSS;
-    if (name == "CMPLSE") return CMPLSE;
-    if (name == "CMPNOT") return CMPNOT;
-    if (name == "CMPOR") return CMPOR;
-    if (name == "CMPAND") return CMPAND;
-    if (name == "FORINIT") return FORINIT;
-    if (name == "FORTEST") return FORTEST;
-    if (name == "FORINCR") return FORINCR;
-    return NONE;
+    if (name == "CEQ") return CEQ;
+    if (name == "CGR") return CGR;
+    if (name == "CGE") return CGE;
+    if (name == "CLS") return CLS;
+    if (name == "CLE") return CLE;
+    if (name == "CNT") return CNT;
+    if (name == "COR") return COR;
+    if (name == "CND") return CND;
+    if (name == "RNT") return RNT;
+    if (name == "RCP") return RCP;
+    if (name == "RIC") return RIC;
+    return NOP;
 }

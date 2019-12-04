@@ -206,8 +206,8 @@ void Program::run()
             current_ins = exec_num(current_ins, data);
         else if (ins == OUT)
             current_ins = exec_out(current_ins, data);
-        else if (ins == OUTL)
-            current_ins = exec_outl(current_ins, data);
+        else if (ins == OUL)
+            current_ins = exec_oul(current_ins, data);
         else if (ins == INP)
             current_ins = exec_inp(current_ins, data);
         else if (ins == SET)
@@ -222,28 +222,28 @@ void Program::run()
             current_ins = exec_cll(current_ins, data);
         else if(ins == RTR) 
             current_ins = exec_rtr(current_ins, data);
-        else if (ins == CMPEQU)
-            current_ins = exec_cmpequ(current_ins, data);
-        else if (ins == CMPGTR)
-            current_ins = exec_cmpgtr(current_ins, data);
-        else if (ins == CMPGTE)
-            current_ins = exec_cmpgte(current_ins, data);
-        else if (ins == CMPLSS)
-            current_ins = exec_cmplss(current_ins, data);
-        else if (ins == CMPLSE)
-            current_ins = exec_cmplse(current_ins, data);
-        else if (ins == CMPNOT)
-            current_ins = exec_cmpnot(current_ins, data);
-        else if (ins == CMPOR)
-            current_ins = exec_cmpor(current_ins, data);
-        else if (ins == CMPAND)
-            current_ins = exec_cmpand(current_ins, data);
-        else if (ins == FORINIT)
-            current_ins = exec_forinit(current_ins, data);
-        else if (ins == FORTEST)
-            current_ins = exec_fortest(current_ins, data);
-        else if (ins == FORINCR)
-            current_ins = exec_forincr(current_ins, data);
+        else if (ins == CEQ)
+            current_ins = exec_ceq(current_ins, data);
+        else if (ins == CGR)
+            current_ins = exec_cgr(current_ins, data);
+        else if (ins == CGE)
+            current_ins = exec_cge(current_ins, data);
+        else if (ins == CLS)
+            current_ins = exec_cls(current_ins, data);
+        else if (ins == CLE)
+            current_ins = exec_cle(current_ins, data);
+        else if (ins == CNT)
+            current_ins = exec_cnt(current_ins, data);
+        else if (ins == COR)
+            current_ins = exec_cor(current_ins, data);
+        else if (ins == CND)
+            current_ins = exec_cnd(current_ins, data);
+        else if (ins == RNT)
+            current_ins = exec_rnt(current_ins, data);
+        else if (ins == RCP)
+            current_ins = exec_rcp(current_ins, data);
+        else if (ins == RIC)
+            current_ins = exec_ric(current_ins, data);
         else
             current_ins++;
     }
@@ -430,7 +430,7 @@ int Program::exec_out(int &current_ins, string data)
 }
 
 /**
- *  Execute "OUTL" instruction
+ *  Execute "OUL" instruction
  * 
  *  Same as "exec_out" but don't put a line jump
  * 
@@ -438,7 +438,7 @@ int Program::exec_out(int &current_ins, string data)
  *  @param data The message to show, if set to default value, pop a value from the pile
  *  @returns The next instruction id
  */
-int Program::exec_outl(int &current_ins, string data)
+int Program::exec_oul(int &current_ins, string data)
 {
     if (data != "0.000000" && data != "")
     {
@@ -584,7 +584,7 @@ int Program::exec_rtr(int &current_ins, string data) {
 }
 
 /**
- *  Execute "CMPEQU" instruction
+ *  Execute "CEQ" instruction
  * 
  *  Pop out the two first values of the pile, and then push the result of the comparaison
  *      (1 if x = y, 0 otherwise)
@@ -593,7 +593,7 @@ int Program::exec_rtr(int &current_ins, string data) {
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_cmpequ(int &current_ins, string data)
+int Program::exec_ceq(int &current_ins, string data)
 {
 
     double x = pop_d();
@@ -605,7 +605,7 @@ int Program::exec_cmpequ(int &current_ins, string data)
 }
 
 /**
- *  Execute "CMPGTR" instruction
+ *  Execute "CGR" instruction
  * 
  *  Pop out the two first values of the pile, and then push the result of the comparaison
  *      (1 if y > x, 0 otherwise)
@@ -614,7 +614,7 @@ int Program::exec_cmpequ(int &current_ins, string data)
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_cmpgtr(int &current_ins, string data)
+int Program::exec_cgr(int &current_ins, string data)
 {
 
     double x = pop_d();
@@ -626,7 +626,7 @@ int Program::exec_cmpgtr(int &current_ins, string data)
 }
 
 /**
- *  Execute "CMPGTE" instruction
+ *  Execute "CGE" instruction
  * 
  *  Pop out the two first values of the pile, and then push the result of the comparaison
  *      (1 if y >= x, 0 otherwise)
@@ -635,7 +635,7 @@ int Program::exec_cmpgtr(int &current_ins, string data)
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_cmpgte(int &current_ins, string data)
+int Program::exec_cge(int &current_ins, string data)
 {
 
     double x = pop_d();
@@ -647,7 +647,7 @@ int Program::exec_cmpgte(int &current_ins, string data)
 }
 
 /**
- *  Execute "CMPLSS" instruction
+ *  Execute "CLS" instruction
  * 
  *  Pop out the two first values of the pile, and then push the result of the comparaison
  *      (1 if y < x, 0 otherwise)
@@ -656,7 +656,7 @@ int Program::exec_cmpgte(int &current_ins, string data)
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_cmplss(int &current_ins, string data)
+int Program::exec_cls(int &current_ins, string data)
 {
 
     double x = pop_d();
@@ -668,7 +668,7 @@ int Program::exec_cmplss(int &current_ins, string data)
 }
 
 /**
- *  Execute "CMPLSE" instruction
+ *  Execute "CLE" instruction
  * 
  *  Pop out the two first values of the pile, and then push the result of the comparaison
  *      (1 if y <= x, 0 otherwise)
@@ -677,7 +677,7 @@ int Program::exec_cmplss(int &current_ins, string data)
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_cmplse(int &current_ins, string data)
+int Program::exec_cle(int &current_ins, string data)
 {
 
     double x = pop_d();
@@ -689,7 +689,7 @@ int Program::exec_cmplse(int &current_ins, string data)
 }
 
 /**
- *  Execute "CMPNOT" instruction
+ *  Execute "CNT" instruction
  * 
  *  Pop out the first value of the pile, and then push it's boolean inverse
  * 
@@ -697,7 +697,7 @@ int Program::exec_cmplse(int &current_ins, string data)
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_cmpnot(int &current_ins, string data)
+int Program::exec_cnt(int &current_ins, string data)
 {
 
     double x = pop_d();
@@ -708,7 +708,7 @@ int Program::exec_cmpnot(int &current_ins, string data)
 }
 
 /**
- *  Execute "CMPOR" instruction
+ *  Execute "COR" instruction
  * 
  *  Pop out the two first values of the pile, and then push the result of the boolean large
  *      OR (x || y) operation
@@ -717,7 +717,7 @@ int Program::exec_cmpnot(int &current_ins, string data)
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_cmpor(int &current_ins, string data)
+int Program::exec_cor(int &current_ins, string data)
 {
 
     double x = pop_d();
@@ -729,7 +729,7 @@ int Program::exec_cmpor(int &current_ins, string data)
 }
 
 /**
- *  Execute "CMPAND" instruction
+ *  Execute "CND" instruction
  * 
  *  Pop out the two first values of the pile, and then push the result of the boolean large
  *      AND (x && y) operation
@@ -738,7 +738,7 @@ int Program::exec_cmpor(int &current_ins, string data)
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_cmpand(int &current_ins, string data)
+int Program::exec_cnd(int &current_ins, string data)
 {
 
     double x = pop_d();
@@ -750,7 +750,7 @@ int Program::exec_cmpand(int &current_ins, string data)
 }
 
 /**
- *  Execute "FORINIT" instruction
+ *  Execute "RNT" instruction
  * 
  *  Pop out the two first values of the pile, and then push them in the for pile
  * 
@@ -758,7 +758,7 @@ int Program::exec_cmpand(int &current_ins, string data)
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_forinit(int &current_ins, string data)
+int Program::exec_rnt(int &current_ins, string data)
 {
     int n = (int)pop_d();
     int i = (int)pop_d();
@@ -769,7 +769,7 @@ int Program::exec_forinit(int &current_ins, string data)
 }
 
 /**
- *  Execute "FORTEST" instruction
+ *  Execute "RCP" instruction
  * 
  *  Pop out the first value of the for pile, check if i is greater then n and then
  *      push the result of the comparaison in the pile
@@ -778,7 +778,7 @@ int Program::exec_forinit(int &current_ins, string data)
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_fortest(int &current_ins, string data)
+int Program::exec_rcp(int &current_ins, string data)
 {
     auto f = f_pop();
 
@@ -798,7 +798,7 @@ int Program::exec_fortest(int &current_ins, string data)
 }
 
 /**
- *  Execute "FORINCR" instruction
+ *  Execute "RIC" instruction
  * 
  *  Pop out the first value of the for pile, add 1 to i and then push it back
  * 
@@ -806,7 +806,7 @@ int Program::exec_fortest(int &current_ins, string data)
  *  @param data Useless in this case, uniformity
  *  @returns The next instruction id
  */
-int Program::exec_forincr(int &current_ins, string data)
+int Program::exec_ric(int &current_ins, string data)
 {
     auto f = f_pop();
 
