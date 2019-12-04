@@ -1,13 +1,8 @@
 %{
     #define YYERROR_VERBOSE
-
-    #include <iostream>
-    #include <iomanip>
-    #include <map>
-    #include <string>
-    #include <vector>
     
     #include "./src/program/program.h"
+    #include "./src/plot/plot.h"
 
     using namespace Instructions;
     using namespace std;
@@ -17,10 +12,11 @@
 
     // Intialize program
     Program prog;
-    bool err = false;
-    static int line = 1;
+    bool p_err = false;
 
+    static int line = 1;
     static int nb_args = 0;
+
 
 %}
 
@@ -205,9 +201,29 @@ int main(int argc, char **argv) {
     // Parse
     yyparse();
 
-    if(err) {
+    if(p_err) {
         return 1;
     }
+
+    // Plots tests
+    /*vector<pair<double, double>> points;
+
+    points.push_back(make_pair(100, 100));
+    points.push_back(make_pair(100, 200));
+    points.push_back(make_pair(200, 200));
+    points.push_back(make_pair(200, 100));
+
+    plot_points(points, true, false);*/
+
+    /*vector<pair<double, double>> points;
+    double x;
+
+    for(x = -3.14 * 10; x <= 3.14 * 10; x += 0.1) {
+        points.push_back(make_pair(x + 10, sin(x) + 10));
+    }
+
+    plot_points(points, false, false);*/
+    // End plots tests
 
     // Show and write execution commands
     cout << prog << endl;
@@ -221,7 +237,7 @@ int main(int argc, char **argv) {
 int yyerror(char const *s) {					
     cout << "Error at line " << line << ": " << s << endl;
 
-    err = true;
+    p_err = true;
 
     return 1;
 }

@@ -98,7 +98,8 @@ lex.yy.c: parser.tab.c scanner.l ## Build scanner
 build: welcome parser.tab.c lex.yy.c $(OBJECTS) ## Build the program
 	@echo "Building program..."
 	@echo "=============== G++ Output ==============="
-	$(CXX) lex.yy.c $(OBJECTS) -o program $(CXX_FLAGS)
+	$(CXX) -c lex.yy.c -o build/main.o
+	$(CXX) build/main.o $(OBJECTS) -o program -lsfml-graphics -lsfml-window -lsfml-system
 	@echo "=========================================="
 	@echo "Done" && echo 
 
