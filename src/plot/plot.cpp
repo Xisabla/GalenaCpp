@@ -79,8 +79,6 @@ bool plot(vector<pair<double, double>> points, int offset, int width, int height
             double y = height - offset * 2 / 3;
             double fx = (xmax - xmin) * (i + 1) / (nb + 1) + xmin;
 
-            cout << xmin << ";" << xmax << endl;
-
             text.setString(to_string(fx));
             text.setPosition(x, y);
             axis.setPosition(x, height - offset);
