@@ -55,6 +55,7 @@ public:
     int exec_sub(int &current_ins, string data);
     int exec_div(int &current_ins, string data);
     int exec_mul(int &current_ins, string data);
+    int exec_pow(int &current_ins, string data);
     int exec_inc(int &current_ins, string data);
     int exec_dec(int &current_ins, string data);
     int exec_num(int &current_ins, string data);

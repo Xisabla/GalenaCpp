@@ -14,6 +14,7 @@ enum Instruction
     SUB,
     DIV,
     MUL,
+    POW,
     INC,
     DEC,
     NUM,

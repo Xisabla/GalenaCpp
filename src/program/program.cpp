@@ -204,6 +204,8 @@ int Program::exec(Instruction ins, int& current_ins, string data)
         current_ins = exec_div(current_ins, data);
     else if (ins == MUL)
         current_ins = exec_mul(current_ins, data);
+    else if (ins == POW)
+        current_ins = exec_pow(current_ins, data);
     else if (ins == INC)
         current_ins = exec_inc(current_ins, data);
     else if (ins == DEC)
@@ -353,6 +355,20 @@ int Program::exec_mul(int &current_ins, string data)
 
     if (get_opt("debug"))
         cout << "(debug) " << y << " * " << x << " = " << y * x << endl;
+
+    return ++current_ins;
+}
+
+// TODO: Comment
+int Program::exec_pow(int &current_ins, string data)
+{
+    double x = pop_d();
+    double y = pop_d();
+
+    push(pow(y,x));
+
+    if (get_opt("debug"))
+        cout << "(debug) " << y << " ^ " << x << " = " << pow(y, x) << endl;
 
     return ++current_ins;
 }
@@ -628,7 +644,7 @@ int Program::exec_plt(int &current_ins, string data) {
         newPlot.push_back(make_pair(x, y));
     }
 
-    plot_points(newPlot);
+    plot(newPlot);
 
     return ++current_ins;
 }

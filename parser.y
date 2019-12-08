@@ -75,6 +75,7 @@
 %token DECREMENT
 %left PLUS MINUS
 %left TIMES DIVIDE
+%left POWER
 
 %%
 
@@ -169,6 +170,7 @@ calcul:
     | calcul MINUS calcul               { prog.ins(SUB, 0); }
     | calcul TIMES calcul               { prog.ins(MUL, 0); }
     | calcul DIVIDE calcul              { prog.ins(DIV, 0); }
+    | calcul POWER calcul               { prog.ins(POW, 0); }
     | calcul INCREMENT                  { prog.ins(INC, 0); }
     | calcul DECREMENT                  { prog.ins(DEC, 0); }
     | LBRACKET calcul RBRACKET          { }

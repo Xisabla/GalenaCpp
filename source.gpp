@@ -2,6 +2,5 @@
 %option ass
 
 mult: x
-    retourner x*2
-
+    retourner x^2
 dessiner mult

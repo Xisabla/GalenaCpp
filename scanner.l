@@ -16,6 +16,7 @@
 "+"                             { return PLUS; }
 "-"                             { return MINUS; }
 "*"                             { return TIMES; }
+"^"                             { return POWER; }
 "/"                             { return DIVIDE; }
 "++"                            { return INCREMENT; }
 "--"                            { return DECREMENT; }

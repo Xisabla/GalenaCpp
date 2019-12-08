@@ -8,6 +8,7 @@ string Instructions::name(Instruction ins)
     case SUB: return "SUB";
     case DIV: return "DIV";
     case MUL: return "MUL";
+    case POW: return "POW";
     case INC: return "INC";
     case DEC: return "DEC";
     case NUM: return "NUM";
@@ -43,6 +44,7 @@ Instructions::Instruction Instructions::get_ins(string name)
     if (name == "SUB") return SUB;
     if (name == "DIV") return DIV;
     if (name == "MUL") return MUL;
+    if (name == "POW") return POW;
     if (name == "INC") return INC;
     if (name == "DEC") return DEC;
     if (name == "NUM") return NUM;
