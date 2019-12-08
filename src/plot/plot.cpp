@@ -73,13 +73,11 @@ bool plot(vector<pair<double, double>> points, int offset, int width, int height
             Text text;
             text.setFont(font);
             text.setCharacterSize(14);
-            text.setFillColor(Color::Black);
+            text.setColor(Color::Black);
 
             double x = offset + (width - offset * 2) * (i + 1) / (nb + 1);
             double y = height - offset * 2 / 3;
             double fx = (xmax - xmin) * (i + 1) / (nb + 1) + xmin;
-
-            cout << xmin << ";" << xmax << endl;
 
             text.setString(to_string(fx));
             text.setPosition(x, y);
@@ -97,7 +95,7 @@ bool plot(vector<pair<double, double>> points, int offset, int width, int height
             Text text;
             text.setFont(font);
             text.setCharacterSize(10);
-            text.setFillColor(Color::Black);
+            text.setColor(Color::Black);
 
             double x = offset * 2 / 3;
             double y = height - (height - offset * 2) * (i + 1) / (nb + 1) - offset;
