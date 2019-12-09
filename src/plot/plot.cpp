@@ -68,43 +68,7 @@ bool plot(vector<pair<double, double>> points, bool lines, int offset, int width
                 line[1].color    = sf::Color::Blue;
 
                 window.draw(line, 2, Lines);
-
-                /*double length = sqrt(pow((xb - xa),2) + pow((yb-ya),2));
-                double angle = acos(0.2);*/
-
-                /*RectangleShape line(Vector2f(length, 1));
-                line.rotate(angle);
-                line.setPosition(xa, ya);
-                line.setFillColor(Color::Blue);
-
-                window.draw(line);*/
             }
-
-            /*
-            for(int i = 0; i < points.size() - 1; i++) {
-                auto a = points[i];
-                auto b = points[i + 1];
-
-                Vertex line[] = {
-                    Vertex(Vector2f(a.first, a.second)),
-                    Vertex(Vector2f(b.first, b.second))
-                };
-
-                window.draw(line, 2, Lines);
-                window.display();
-            }
-
-            if(loop) {
-                auto a = points[points.size() - 1];
-                auto b = points[0];
-
-                Vertex line[] = {
-                    Vertex(Vector2f(a.first, a.second)),
-                    Vertex(Vector2f(b.first, b.second))};
-
-                window.draw(line, 2, Lines);
-                window.display();
-            }*/
         } else {
             // Show points
             for(auto &p : points) {
