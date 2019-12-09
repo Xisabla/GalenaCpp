@@ -3,4 +3,19 @@
 
 mult: x
     retourner x^2
-dessiner mult
+
+door: x
+
+    a = 7.5
+    y = 0
+
+    si x > a/2 ou x < -a/2
+    alors
+        y = 0
+    sinon
+        y = 1
+    fin
+
+    retourner y
+
+dessiner door
