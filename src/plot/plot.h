@@ -11,6 +11,6 @@ using namespace sf;
 
 bool plot_points(vector<pair<double, double>> points, bool lines = true, bool loop = false);
 
-bool plot(vector<pair<double, double>> points, int offset = 50, int width = 1300, int height = 700);
+bool plot(vector<pair<double, double>> points, bool lines = true, int offset = 50, int width = 1300, int height = 700);
 
 #endif // !GALENACPP_PLOT

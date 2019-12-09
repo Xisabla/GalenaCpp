@@ -1,6 +1,6 @@
 #include "./plot.h"
 
-bool plot(vector<pair<double, double>> points, int offset, int width, int height) {
+bool plot(vector<pair<double, double>> points, bool lines, int offset, int width, int height) {
     if (points.size() < 1) return false;
 
     RenderWindow window(VideoMode(width, height), "GalenaCpp - Plot");
@@ -49,16 +49,74 @@ bool plot(vector<pair<double, double>> points, int offset, int width, int height
             }
         }
         
-        // Show points
-        for(auto &p : points) {
-            double x = offset + (p.first - xmin) * (width - 2 * offset) / (xmax - xmin);
-            double y = height - offset - (p.second - ymin) * (height - 2 * offset) / (ymax - ymin);
+        if(lines) {
+            for(int i = 0; i < points.size() - 1; i++) {
+                auto a = points[i];
+                auto b = points[i + 1];
 
-            CircleShape point(thickness);
-            point.setPosition(x, y);
-            point.setFillColor(Color::Blue);
+                double xa = offset + (a.first - xmin) * (width - 2 * offset) / (xmax - xmin);
+                double ya = height - offset - (a.second - ymin) * (height - 2 * offset) / (ymax - ymin);
 
-            window.draw(point);
+                
+                double xb = offset + (b.first - xmin) * (width - 2 * offset) / (xmax - xmin);
+                double yb = height - offset - (b.second - ymin) * (height - 2 * offset) / (ymax - ymin);
+
+                sf::Vertex line[2];
+                line[0].position = sf::Vector2f(xa, ya);
+                line[0].color    = sf::Color::Blue;
+                line[1].position = sf::Vector2f(xb, yb);
+                line[1].color    = sf::Color::Blue;
+
+                window.draw(line, 2, Lines);
+
+                /*double length = sqrt(pow((xb - xa),2) + pow((yb-ya),2));
+                double angle = acos(0.2);*/
+
+                /*RectangleShape line(Vector2f(length, 1));
+                line.rotate(angle);
+                line.setPosition(xa, ya);
+                line.setFillColor(Color::Blue);
+
+                window.draw(line);*/
+            }
+
+            /*
+            for(int i = 0; i < points.size() - 1; i++) {
+                auto a = points[i];
+                auto b = points[i + 1];
+
+                Vertex line[] = {
+                    Vertex(Vector2f(a.first, a.second)),
+                    Vertex(Vector2f(b.first, b.second))
+                };
+
+                window.draw(line, 2, Lines);
+                window.display();
+            }
+
+            if(loop) {
+                auto a = points[points.size() - 1];
+                auto b = points[0];
+
+                Vertex line[] = {
+                    Vertex(Vector2f(a.first, a.second)),
+                    Vertex(Vector2f(b.first, b.second))};
+
+                window.draw(line, 2, Lines);
+                window.display();
+            }*/
+        } else {
+            // Show points
+            for(auto &p : points) {
+                double x = offset + (p.first - xmin) * (width - 2 * offset) / (xmax - xmin);
+                double y = height - offset - (p.second - ymin) * (height - 2 * offset) / (ymax - ymin);
+
+                CircleShape point(thickness);
+                point.setPosition(x, y);
+                point.setFillColor(Color::Blue);
+
+                window.draw(point);
+            }
         }
 
         // Show graduations 
