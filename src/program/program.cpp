@@ -653,30 +653,56 @@ int Program::exec_rtr(int &current_ins, string data) {
  *  @returns The next instruction id 
  */
 int Program::exec_plt(int &current_ins, string data) {
-    if (routines.find(data) == routines.end())
+    vector<string> d = read_data(data);
+    vector<string> args;
+
+    string routine = d.size() > 0 ? d[0] : ":noroutine:";
+
+    //   -1: no args and no xmin/xmax/xoff
+    //    0: no args but xmin/xmax/xoff
+    //n > 0: n args and xmin/xmax/xoff
+    int nb_args = d.size() > 1 ? atof(d[1].c_str()) : -1;
+
+    // fetch args
+    if(nb_args > 0) {
+        for(int i = 0; i < nb_args; i++) args.push_back(pop());
+    }
+
+    reverse(args.begin(), args.end());
+
+    // find xmin, xmax, xoff
+    double xoff = (nb_args >= 0) ? pop_d() : 0.1;
+    double xmax = (nb_args >= 0) ? pop_d() : 10;
+    double xmin = (nb_args >= 0) ? pop_d() : -10;
+
+    // check if the routine exists
+    if (routines.find(routine) == routines.end())
     {
         cout << "Routine is not defined." << endl;
         return ++current_ins;
     }
-    if (routines[data].second != 1)
+
+    // check for the args amount
+    if (routines[routine].second == args.size() + 1)
     {
-        cout << "Routine must take exactly one parameter." << endl;
+        cout << "Plot need " << routines[routine].second - 1 << " parameters for this routine." << endl;
         return ++current_ins;
     }
 
     vector<pair<double, double>> points;
 
-    for(double x = -10; x <= 10; x += 0.1) {
+    for (double x = xmin; x <= xmax; x += xoff)
+    {
         // Push x
         push(x);
+        // Push args
+        for (auto &a : args) push(a);
 
         // Get first instruction line
         int line = 0;
-        line = exec_cll(line, data);
-        
-        Instruction instr;
+        line     = exec_cll(line, routine);
 
-        // int s = c_pile.size();
+        Instruction instr;
 
         do {        
             // Fetch instruction

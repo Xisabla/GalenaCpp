@@ -1,12 +1,11 @@
 %option ecrire
 %option voir_exec
 
-poly: x
-    retourner x^3 - x^2 + x - 1
+poly: x, a, b, c, d
+    retourner a*x^3 - b*x^2 + c*x + d
 
-door: x
+door: x, a
 
-    a = 7.5
     y = 0
 
     si x > a/2 ou x < -a/2
@@ -18,4 +17,5 @@ door: x
 
     retourner y
 
-dessiner poly
+dessiner poly -100 100 0.1 10,0,0,100
+dessiner door -100 100 0.1 10

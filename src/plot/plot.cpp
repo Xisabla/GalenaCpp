@@ -95,7 +95,7 @@ bool plot(vector<pair<double, double>> points, bool lines, int offset, int width
             Text text;
             text.setFont(font);
             text.setCharacterSize(14);
-            text.setColor(Color::Black);
+            text.setFillColor(Color::Black);
 
             double x = offset + (width - offset * 2) * (i + 1) / (nb + 1);
             double y = height - offset * 2 / 3;
@@ -117,7 +117,7 @@ bool plot(vector<pair<double, double>> points, bool lines, int offset, int width
             Text text;
             text.setFont(font);
             text.setCharacterSize(10);
-            text.setColor(Color::Black);
+            text.setFillColor(Color::Black);
 
             double x = offset * 2 / 3;
             double y = height - (height - offset * 2) * (i + 1) / (nb + 1) - offset;
@@ -200,4 +200,10 @@ bool plot_points(vector<pair<double, double>> points, bool lines, bool loop) {
 
     return true;
 
+}
+
+vector<string> read_data(string data) {
+    vector<string> splitted = split(data, ':');
+
+    return splitted;
 }

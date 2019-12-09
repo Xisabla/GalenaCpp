@@ -124,7 +124,18 @@ instruction: /* empty */
       main                              { }
       return                            { prog[$2.ic_goto] = to_string(prog.ic()); }
     | call                              { }
-    | PLOT IDENTIFIER                   { prog.ins(PLT, $2); }
+    | PLOT IDENTIFIER                   {
+        string data = string($2) + ":-1"; 
+        prog.ins(PLT, data);
+    }
+    | PLOT IDENTIFIER calcul calcul calcul {
+        string data = string($2) + ":0";
+        prog.ins(PLT, data);
+    }
+    | PLOT IDENTIFIER calcul calcul calcul call_args {
+        string data = string($2) + ":" + to_string(nb_args);
+        prog.ins(PLT, data);
+    }
     ;
 
 args:
@@ -139,8 +150,9 @@ call:
     ;
 
 call_args:
-    | calcul                            { }
-    | calcul COMMA call_args            { }
+    | calcul                            { nb_args = 1; }
+    | calcul COMMA call_args            { nb_args++; }
+    |                                   { nb_args = 0; }
     ;
 
 return:

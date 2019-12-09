@@ -13,3 +13,16 @@ char *trim(char *str, char c)
 
     return str;
 }
+
+vector<string> split(string &s, char delimiter) {
+    vector<string> tokens;
+
+    string token;
+    istringstream tokenStream(s);
+
+    while(getline(tokenStream, token, delimiter)) {
+        tokens.push_back(token);
+    }
+
+    return tokens;
+}
