@@ -683,7 +683,7 @@ int Program::exec_plt(int &current_ins, string data) {
     }
 
     // check for the args amount
-    if (routines[routine].second == args.size() + 1)
+    if (routines[routine].second > args.size() + 1)
     {
         cout << "Plot need " << routines[routine].second - 1 << " parameters for this routine." << endl;
         return ++current_ins;

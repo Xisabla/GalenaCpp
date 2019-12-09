@@ -18,4 +18,5 @@ door: x, a
     retourner y
 
 dessiner poly -100 100 0.1 10,0,0,100
-dessiner door -100 100 0.1 10
+saisir l
+dessiner door -100 100 0.1 l
