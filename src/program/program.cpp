@@ -195,6 +195,18 @@ void Program::run()
     cout << "==========================================" << endl;
 }
 
+/**
+ *  Run an instruction
+ * 
+ *  Fin the executor for the given instruction, run it and return
+ *  the next instruction id
+ * 
+ *  @param ins The instruction to execute
+ *  @param current_ins The instruction id
+ *  @param data The data to give to the instruction
+ * 
+ *  @returns The next instruction id
+ */
 int Program::exec(Instruction ins, int& current_ins, string data)
 {
     if (ins == ADD)
