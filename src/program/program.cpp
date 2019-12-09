@@ -359,7 +359,15 @@ int Program::exec_mul(int &current_ins, string data)
     return ++current_ins;
 }
 
-// TODO: Comment
+/**
+ *  Execute "POW" instruction
+ * 
+ *  Pop out the two numbers and push the second one at the power of the first one
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case, uniformity
+ *  @returns The next instruction id
+ */
 int Program::exec_pow(int &current_ins, string data)
 {
     double x = pop_d();
@@ -577,7 +585,16 @@ int Program::exec_jmp(int &current_ins, string data)
     return current_ins;
 }
 
-// TODO: Comment
+/**
+ *  EXECUTE "CLL" instruction
+ * 
+ *  Push the next instruction id in the call pile, check if there are enough arguments for
+ *  the routine given in data and then jump to it's instruction id
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Tha routine name
+ *  @returns The next instruction id 
+ */
 int Program::exec_cll(int &current_ins, string data) {
     if (routines.find(data) != routines.end())
     {
@@ -600,13 +617,28 @@ int Program::exec_cll(int &current_ins, string data) {
     return ++current_ins;
 }
 
-// TODO: Comment
+/**
+ *  EXECUTE "RTR" instruction
+ * 
+ *  Go back to last instruction id of the call pile
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data Useless in this case
+ *  @returns The next instruction id 
+ */
 int Program::exec_rtr(int &current_ins, string data) {
     return current_ins = pop_c();
 }
 
-// TODO: Comment
-
+/**
+ *  EXECUTE "PLT" instruction
+ * 
+ *  Plot a draw from it's routine name
+ * 
+ *  @param current_ins The id of the current instruction in the instruction vector
+ *  @param data The routine name
+ *  @returns The next instruction id 
+ */
 int Program::exec_plt(int &current_ins, string data) {
     if (routines.find(data) == routines.end())
     {
@@ -619,32 +651,37 @@ int Program::exec_plt(int &current_ins, string data) {
         return ++current_ins;
     }
 
-    // cout << Instructions::name(instructions[routines[data].first].first) << endl;
-    vector<pair<double, double>> newPlot;
+    vector<pair<double, double>> points;
 
-    // for begin
     for(double x = -10; x <= 10; x += 0.1) {
+        // Push x
         push(x);
 
+        // Get first instruction line
         int line = 0;
         line = exec_cll(line, data);
+        
         Instruction instr;
 
-        int s = c_pile.size();
+        // int s = c_pile.size();
 
         do {        
+            // Fetch instruction
             auto current = instructions[line];
             instr = current.first;
             string instr_data = current.second;
 
+            // Execute it and get new line
             line = exec(instr, line, instr_data);  
         } while(instr != RTR);
 
+        // Pop y
         double y = pop_d();
-        newPlot.push_back(make_pair(x, y));
+        points.push_back(make_pair(x, y));
     }
 
-    plot(newPlot);
+    // Plot point
+    plot(points);
 
     return ++current_ins;
 }
@@ -1058,7 +1095,11 @@ pair<int, int> Program::f_pop()
     return val;
 }
 
-// TODO: Comment
+/**
+ *  Pop out the first element of the call pile
+ * 
+ *  @returns The last instruction id in the pile
+ */
 int Program::pop_c()
 {
     auto val = c_pile[c_pile.size() - 1];
@@ -1066,7 +1107,6 @@ int Program::pop_c()
     c_pile.pop_back();
 
     return val;
-    //return atof(pop().c_str());
 }
 
 //
