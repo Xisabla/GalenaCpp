@@ -1,5 +1,5 @@
 %option ecrire
-%option ass
+%option voir_exec
 
 poly: x
     retourner x^3 - x^2 + x - 1

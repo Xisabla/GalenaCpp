@@ -180,6 +180,7 @@ bool Program::write(ofstream &fs) const
 void Program::run()
 {
     if (get_opt("ecrire")) write("output.exec");
+    if (get_opt("voir_exec")) cout << *this << endl;
 
     cout << "================ EXECUTION ===============" << endl;
 
