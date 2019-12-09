@@ -1,8 +1,8 @@
 %option ecrire
 %option ass
 
-mult: x
-    retourner x^2
+poly: x
+    retourner x^3 - x^2 + x - 1
 
 door: x
 
@@ -18,4 +18,4 @@ door: x
 
     retourner y
 
-dessiner door
+dessiner poly
