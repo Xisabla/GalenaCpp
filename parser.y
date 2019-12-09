@@ -174,7 +174,7 @@ calcul:
     | calcul INCREMENT                  { prog.ins(INC, 0); }
     | calcul DECREMENT                  { prog.ins(DEC, 0); }
     | LBRACKET calcul RBRACKET          { }
-    | MINUS NUMBER                      { prog.ins(NUM, -$2); }
+    | MINUS calcul                      { prog.ins(NUM, -1); prog.ins(MUL, 0); }
     | NUMBER                            { prog.ins(NUM, $1); }
     | IDENTIFIER INCREMENT              { prog.ins(GET, $1);prog.ins(INC, 0); prog.ins(SET, $1); prog.ins(GET, $1); }
     | IDENTIFIER                        { prog.ins(GET, $1); }
@@ -208,29 +208,6 @@ int main(int argc, char **argv) {
     if(p_err) {
         return 1;
     }
-
-    // Plots tests
-    /*vector<pair<double, double>> points;
-
-    points.push_back(make_pair(100, 100));
-    points.push_back(make_pair(100, 200));
-    points.push_back(make_pair(200, 200));
-    points.push_back(make_pair(200, 100));
-
-    plot_points(points, true, false);*/
-
-    /*vector<pair<double, double>> points;
-    double x;
-
-    for(x = -3.14 * 10; x <= 3.14 * 10; x += 0.1) {
-        points.push_back(make_pair(x + 10, sin(x) + 10));
-    }
-
-    plot_points(points, false, false);*/
-    // End plots tests
-
-    // Show and write execution commands
-    cout << prog << endl;
 
     // Run the program
     prog.run();
