@@ -1,0 +1,14 @@
+modulo: a, b
+
+    m = 0
+
+    tant que a >= b
+    faire
+        a = a - b
+        m = m + 1
+    fin
+
+    retourner a
+
+
+afficher appeler modulo 13, 5

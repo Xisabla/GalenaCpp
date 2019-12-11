@@ -1,0 +1,12 @@
+door: x, a
+
+    si x > a/2 ou x < -a/2
+    alors
+        y = 0
+    sinon
+        y = 1
+    fin
+
+    retourner y
+
+dessiner door -10 10 0.01 6

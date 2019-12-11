@@ -1,0 +1,21 @@
+a = 2
+b = 5
+c = 10
+
+si a > 1
+alors
+    afficher "> 1"
+sinon
+    afficher "<= 1"
+fin
+
+tant que c < 15
+faire
+    c = c + 1
+    afficher c
+fin
+
+répéter i = 0:5
+faire
+    afficher i
+fin

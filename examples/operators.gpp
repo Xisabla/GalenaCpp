@@ -1,0 +1,8 @@
+a = 2
+b = 5
+c = 10
+
+afficher a + b
+afficher (a + b) * c / (c + 1)
+afficher b^a
+afficher -a + b - c
